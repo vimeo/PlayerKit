@@ -1,22 +1,23 @@
 {
   "name": "PlayerKit",
   "version": "0.1.0",
-  "summary": "A short description of PlayerKit.",
-  "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/ghking/PlayerKit",
+  "summary": "A modular video player system.",
+  "description": "PlayerKit is a modular video player system. It provides a common interface for players and various players that implement it.",
+  "homepage": "https://github.com/vimeo/PlayerKit",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
   },
   "authors": {
-    "ghking": "gavin@vimeo.com"
+    "Gavin King": "gavin@vimeo.com"
   },
   "source": {
-    "git": "https://github.com/ghking/PlayerKit.git",
+    "git": "https://github.com/vimeo/PlayerKit.git",
     "tag": "0.1.0"
   },
   "platforms": {
-    "ios": "8.0"
+    "ios": "8.0",
+    "tvos": "9.0"
   },
   "source_files": "PlayerKit/Classes/**/*"
 }
