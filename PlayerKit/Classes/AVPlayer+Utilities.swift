@@ -7,3 +7,37 @@
 //
 
 import Foundation
+import AVFoundation
+
+internal extension AVPlayer
+{
+    internal var errorForPlayerOrItem: NSError?
+    {
+        // First try to return the current item's error
+        
+        if let error = self.currentItem?.error
+        {
+            // If current item's error has an underlying error, return that
+            
+            if let underlyingError = (error as NSError).userInfo[NSUnderlyingErrorKey] as? NSError
+            {
+                return underlyingError
+            }
+            else
+            {
+                return error
+            }
+        }
+        
+        // Otherwise, try to return the player error
+        
+        if let error = self.error
+        {
+            return error
+        }
+        
+        // An error cannot be found
+        
+        return nil
+    }
+}
