@@ -83,12 +83,6 @@ internal enum PlayerError: Int
     var isAirPlayEnabled: Bool { get set }
 }
 
-@objc protocol PictureInPictureCapable
-{
-    @available(iOS 9.0, *)
-    var pictureInPictureController: AVPictureInPictureController? { get }
-}
-
 @objc protocol VolumeCapable
 {
     var volume: Float { get set }
@@ -98,3 +92,11 @@ internal enum PlayerError: Int
 {
     var fillMode: String { get set }
 }
+
+#if os(iOS)
+@objc protocol PictureInPictureCapable
+{
+    @available(iOS 9.0, *)
+    var pictureInPictureController: AVPictureInPictureController? { get }
+}
+#endif

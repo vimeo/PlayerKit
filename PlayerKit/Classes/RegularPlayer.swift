@@ -318,10 +318,12 @@ public class RegularPlayer: NSObject, VideoPlayer, ProvidesView
     
     // MARK: Capability Protocol Helpers
     
+    #if os(iOS)
     @available(iOS 9.0, *)
     private lazy var _pictureInPictureController: AVPictureInPictureController? = {
         AVPictureInPictureController(playerLayer: self.regularPlayerView.playerLayer)
     }()
+    #endif
 }
 
 // MARK: Capability Protocols
@@ -341,6 +343,7 @@ extension RegularPlayer: AirPlayCapable
     }
 }
 
+#if os(iOS)
 extension RegularPlayer: PictureInPictureCapable
 {
     @available(iOS 9.0, *)
@@ -349,6 +352,7 @@ extension RegularPlayer: PictureInPictureCapable
         return self._pictureInPictureController
     }
 }
+#endif
 
 extension RegularPlayer: VolumeCapable
 {
