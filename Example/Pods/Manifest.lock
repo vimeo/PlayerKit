@@ -1,0 +1,16 @@
+PODS:
+  - PlayerKit (0.1.0)
+
+DEPENDENCIES:
+  - PlayerKit (from `../`)
+
+EXTERNAL SOURCES:
+  PlayerKit:
+    :path: ../
+
+SPEC CHECKSUMS:
+  PlayerKit: 3e65c50c155a5a2b1ca2d458182a6ced896f7b55
+
+PODFILE CHECKSUM: 5ee28b5b61f09062cbeec2cdf33964135ee3cb5f
+
+COCOAPODS: 1.1.1

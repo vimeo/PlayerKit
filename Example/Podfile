@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'PlayerKit_Example' do
+  pod 'PlayerKit', :path => '../'
+
+  target 'PlayerKit_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

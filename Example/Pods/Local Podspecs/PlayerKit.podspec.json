@@ -1,0 +1,22 @@
+{
+  "name": "PlayerKit",
+  "version": "0.1.0",
+  "summary": "A short description of PlayerKit.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/ghking/PlayerKit",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "ghking": "gavin@vimeo.com"
+  },
+  "source": {
+    "git": "https://github.com/ghking/PlayerKit.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "PlayerKit/Classes/**/*"
+}
