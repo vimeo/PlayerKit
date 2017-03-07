@@ -22,7 +22,7 @@ pod "PlayerKit"
 
 ## Author
 
-ghking, gavin@vimeo.com
+Gavin King, gavin@vimeo.com
 
 ## License
 
