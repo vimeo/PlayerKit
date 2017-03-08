@@ -1,11 +1,15 @@
 use_frameworks!
 
+# pre_install do |installer|
+#     def installer.verify_no_static_framework_transitive_dependencies; end
+# end
+
 target 'PlayerKit_Example' do
   pod 'PlayerKit', :path => '../'
 
   target 'PlayerKit_Tests' do
     inherit! :search_paths
 
-    
+
   end
 end
