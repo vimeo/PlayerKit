@@ -140,7 +140,7 @@ public class RegularPlayer: NSObject, Player, ProvidesView
     
     // MARK: Lifecycle
     
-    override init()
+    public override init()
     {
         super.init()
         
