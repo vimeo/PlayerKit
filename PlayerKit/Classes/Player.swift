@@ -31,26 +31,26 @@ internal enum PlayerError: Int
     }
 }
 
-@objc enum VideoPlayerState: Int
+public enum PlayerState: Int
 {
     case Loading
     case Ready
     case Failed
 }
 
-@objc protocol VideoPlayerDelegate: class
+public protocol PlayerDelegate: class
 {
-    func videoPlayerDidUpdateState(videoPlayer videoPlayer: VideoPlayer, previousState: VideoPlayerState)
-    func videoPlayerDidUpdatePlaying(videoPlayer videoPlayer: VideoPlayer)
-    func videoPlayerDidUpdateTime(videoPlayer videoPlayer: VideoPlayer)
-    func videoPlayerDidUpdateBufferedTime(videoPlayer videoPlayer: VideoPlayer)
+    func playerDidUpdateState(player player: Player, previousState: PlayerState)
+    func playerDidUpdatePlaying(player player: Player)
+    func playerDidUpdateTime(player player: Player)
+    func playerDidUpdateBufferedTime(player player: Player)
 }
 
-@objc protocol VideoPlayer: class
+public protocol Player: class
 {
-    weak var delegate: VideoPlayerDelegate? { get set }
+    weak var delegate: PlayerDelegate? { get set }
     
-    var state: VideoPlayerState { get }
+    var state: PlayerState { get }
     
     var duration: NSTimeInterval { get }
     
@@ -71,32 +71,32 @@ internal enum PlayerError: Int
 
 // MARK: Identity Protocols
 
-@objc protocol ProvidesView
+public protocol ProvidesView
 {
     var view: UIView { get }
 }
 
 // MARK: Capability Protocols
 
-@objc protocol AirPlayCapable
+public protocol AirPlayCapable
 {
     var isAirPlayEnabled: Bool { get set }
 }
 
-@objc protocol VolumeCapable
+public protocol VolumeCapable
 {
     var volume: Float { get set }
 }
 
-@objc protocol FillModeCapable
+public protocol FillModeCapable
 {
     var fillMode: String { get set }
 }
 
 #if os(iOS)
-@objc protocol PictureInPictureCapable
-{
-    @available(iOS 9.0, *)
-    var pictureInPictureController: AVPictureInPictureController? { get }
-}
+    public protocol PictureInPictureCapable
+    {
+        @available(iOS 9.0, *)
+        var pictureInPictureController: AVPictureInPictureController? { get }
+    }
 #endif

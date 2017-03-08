@@ -11,7 +11,7 @@ import Foundation
 import AVFoundation
 import AVKit
 
-public class RegularPlayer: NSObject, VideoPlayer, ProvidesView
+public class RegularPlayer: NSObject, Player, ProvidesView
 {
     private struct Constants
     {
@@ -64,62 +64,62 @@ public class RegularPlayer: NSObject, VideoPlayer, ProvidesView
         }
     }
     
-    private(set) var view: UIView = RegularPlayerView(frame: .zero)
+    private(set) public var view: UIView = RegularPlayerView(frame: .zero)
     
     private var regularPlayerView: RegularPlayerView
     {
         return self.view as! RegularPlayerView
     }
     
-    var playerLayer: AVPlayerLayer
+    private var playerLayer: AVPlayerLayer
     {
         return self.regularPlayerView.playerLayer
     }
     
     // MARK: VideoPlayer
     
-    weak var delegate: VideoPlayerDelegate?
+    weak public var delegate: PlayerDelegate?
     
-    var state: VideoPlayerState = .Ready
+    public var state: PlayerState = .Ready
         {
         didSet
         {
-            self.delegate?.videoPlayerDidUpdateState(videoPlayer: self, previousState: oldValue)
+            self.delegate?.playerDidUpdateState(player: self, previousState: oldValue)
         }
     }
     
-    var duration: NSTimeInterval
+    public var duration: NSTimeInterval
     {
         return self.player.currentItem?.duration.timeInterval ?? 0
     }
     
-    var time: NSTimeInterval = 0
+    public var time: NSTimeInterval = 0
         {
         didSet
         {
-            self.delegate?.videoPlayerDidUpdateTime(videoPlayer: self)
+            self.delegate?.playerDidUpdateTime(player: self)
         }
     }
     
-    var bufferedTime: NSTimeInterval = 0
+    public var bufferedTime: NSTimeInterval = 0
         {
         didSet
         {
-            self.delegate?.videoPlayerDidUpdateBufferedTime(videoPlayer: self)
+            self.delegate?.playerDidUpdateBufferedTime(player: self)
         }
     }
     
-    var playing: Bool
+    public var playing: Bool
     {
         return self.player.rate > 0
     }
     
-    var error: NSError?
+    public var error: NSError?
     {
         return self.player.errorForPlayerOrItem
     }
     
-    func seek(to time: NSTimeInterval)
+    public func seek(to time: NSTimeInterval)
     {
         let cmTime = CMTimeMakeWithSeconds(time, Int32(NSEC_PER_SEC))
         
@@ -128,12 +128,12 @@ public class RegularPlayer: NSObject, VideoPlayer, ProvidesView
         self.time = time
     }
     
-    func play()
+    public func play()
     {
         self.player.play()
     }
     
-    func pause()
+    public func pause()
     {
         self.player.pause()
     }
@@ -296,12 +296,12 @@ public class RegularPlayer: NSObject, VideoPlayer, ProvidesView
     
     private func playerRateDidChange(rate rate: Float)
     {
-        self.delegate?.videoPlayerDidUpdatePlaying(videoPlayer: self)
+        self.delegate?.playerDidUpdatePlaying(player: self)
     }
     
     private func playerItemPlaybackLikelyToKeepUpDidChange(playbackLikelyToKeepUp playbackLikelyToKeepUp: Bool)
     {
-        let state: VideoPlayerState = playbackLikelyToKeepUp ? .Ready : .Loading
+        let state: PlayerState = playbackLikelyToKeepUp ? .Ready : .Loading
         
         self.state = state
     }
@@ -330,7 +330,7 @@ public class RegularPlayer: NSObject, VideoPlayer, ProvidesView
 
 extension RegularPlayer: AirPlayCapable
 {
-    var isAirPlayEnabled: Bool
+    public var isAirPlayEnabled: Bool
         {
         get
         {
@@ -344,19 +344,19 @@ extension RegularPlayer: AirPlayCapable
 }
 
 #if os(iOS)
-extension RegularPlayer: PictureInPictureCapable
-{
-    @available(iOS 9.0, *)
-    var pictureInPictureController: AVPictureInPictureController?
+    extension RegularPlayer: PictureInPictureCapable
     {
-        return self._pictureInPictureController
+        @available(iOS 9.0, *)
+        public var pictureInPictureController: AVPictureInPictureController?
+        {
+            return self._pictureInPictureController
+        }
     }
-}
 #endif
 
 extension RegularPlayer: VolumeCapable
 {
-    var volume: Float
+    public var volume: Float
         {
         get
         {
@@ -371,7 +371,7 @@ extension RegularPlayer: VolumeCapable
 
 extension RegularPlayer: FillModeCapable
 {
-    var fillMode: String
+    public var fillMode: String
         {
         get
         {
