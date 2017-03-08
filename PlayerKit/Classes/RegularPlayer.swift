@@ -81,7 +81,7 @@ public class RegularPlayer: NSObject, Player, ProvidesView
     weak public var delegate: PlayerDelegate?
     
     public var state: PlayerState = .Ready
-        {
+    {
         didSet
         {
             self.delegate?.playerDidUpdateState(player: self, previousState: oldValue)
@@ -94,7 +94,7 @@ public class RegularPlayer: NSObject, Player, ProvidesView
     }
     
     public var time: NSTimeInterval = 0
-        {
+    {
         didSet
         {
             self.delegate?.playerDidUpdateTime(player: self)
@@ -102,7 +102,7 @@ public class RegularPlayer: NSObject, Player, ProvidesView
     }
     
     public var bufferedTime: NSTimeInterval = 0
-        {
+    {
         didSet
         {
             self.delegate?.playerDidUpdateBufferedTime(player: self)
@@ -213,7 +213,7 @@ public class RegularPlayer: NSObject, Player, ProvidesView
             {
                 strongSelf.time = time
             }
-            })
+        })
     }
     
     private func removePlayerObservers()
@@ -331,7 +331,7 @@ public class RegularPlayer: NSObject, Player, ProvidesView
 extension RegularPlayer: AirPlayCapable
 {
     public var isAirPlayEnabled: Bool
-        {
+    {
         get
         {
             return self.player.allowsExternalPlayback
@@ -344,20 +344,20 @@ extension RegularPlayer: AirPlayCapable
 }
 
 #if os(iOS)
-    extension RegularPlayer: PictureInPictureCapable
+extension RegularPlayer: PictureInPictureCapable
+{
+    @available(iOS 9.0, *)
+    public var pictureInPictureController: AVPictureInPictureController?
     {
-        @available(iOS 9.0, *)
-        public var pictureInPictureController: AVPictureInPictureController?
-        {
-            return self._pictureInPictureController
-        }
+        return self._pictureInPictureController
     }
+}
 #endif
 
 extension RegularPlayer: VolumeCapable
 {
     public var volume: Float
-        {
+    {
         get
         {
             return self.player.volume
@@ -372,7 +372,7 @@ extension RegularPlayer: VolumeCapable
 extension RegularPlayer: FillModeCapable
 {
     public var fillMode: String
-        {
+    {
         get
         {
             return (self.view.layer as! AVPlayerLayer).videoGravity

@@ -94,9 +94,9 @@ public protocol FillModeCapable
 }
 
 #if os(iOS)
-    public protocol PictureInPictureCapable
-    {
-        @available(iOS 9.0, *)
-        var pictureInPictureController: AVPictureInPictureController? { get }
-    }
+public protocol PictureInPictureCapable
+{
+    @available(iOS 9.0, *)
+    var pictureInPictureController: AVPictureInPictureController? { get }
+}
 #endif
