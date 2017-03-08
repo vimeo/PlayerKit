@@ -25,7 +25,7 @@ class PlayerViewController: UIViewController, PlayerDelegate
         
         self.setupPlayer()
         
-        let asset = AVURLAsset(URL: NSURL(string: "https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4")!)
+        let asset = AVURLAsset(URL: NSURL(string: "https://github.com/vimeo/PlayerKit/blob/master/Example/PlayerKit/video.mp4?raw=true")!)
         
         self.player?.set(asset: asset)
     }
@@ -38,11 +38,13 @@ class PlayerViewController: UIViewController, PlayerDelegate
         
         player.delegate = self
         
+        self.player = player
+
+        // Add the player to the view
+        
         player.view.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         player.view.frame = self.view.bounds
         self.view.insertSubview(player.view, atIndex: 0)
-        
-        self.player = player
     }
     
     // MARK: Actions
@@ -87,9 +89,9 @@ class PlayerViewController: UIViewController, PlayerDelegate
             
             break
             
-        case .Failed(let error):
+        case .Failed:
             
-            NSLog("🚫 \(error)")
+            NSLog("🚫 \(player.error)")
         }
     }
     
