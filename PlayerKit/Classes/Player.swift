@@ -11,8 +11,8 @@ import AVKit
 
 internal enum PlayerError: Int
 {
-    case unknown
-    case loading
+    case Unknown
+    case Loading
     
     private static let Domain = "com.vimeo.PlayerKit"
     
@@ -20,11 +20,11 @@ internal enum PlayerError: Int
     {
         switch self
         {
-        case .unknown:
+        case .Unknown:
             
             return NSError(domain: self.dynamicType.Domain, code: self.rawValue, userInfo: [NSLocalizedDescriptionKey: "An unknown error occurred."])
             
-        case .loading:
+        case .Loading:
             
             return NSError(domain: self.dynamicType.Domain, code: self.rawValue, userInfo: [NSLocalizedDescriptionKey: "An error occurred while loading the content."])
         }
