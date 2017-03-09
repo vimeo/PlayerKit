@@ -12,36 +12,33 @@ import AVFoundation
 
 class PlayerViewController: UIViewController, PlayerDelegate
 {
+    private struct Constants
+    {
+        static let VideoURL = NSURL(string: "https://github.com/vimeo/PlayerKit/blob/master/Example/PlayerKit/video.mp4?raw=true")!
+    }
+    
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var slider: UISlider!
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    private var player: RegularPlayer?
+    private let player = RegularPlayer()
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
-        self.setupPlayer()
+        player.delegate = self
+
+        self.addPlayerToView()
         
-        let asset = AVURLAsset(URL: NSURL(string: "https://github.com/vimeo/PlayerKit/blob/master/Example/PlayerKit/video.mp4?raw=true")!)
-        
-        self.player?.set(asset: asset)
+        self.player.set(asset: AVURLAsset(URL: Constants.VideoURL))
     }
     
     // MARK: Setup
     
-    private func setupPlayer()
+    private func addPlayerToView()
     {
-        let player = RegularPlayer()
-        
-        player.delegate = self
-        
-        self.player = player
-
-        // Add the player to the view
-        
         player.view.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         player.view.frame = self.view.bounds
         self.view.insertSubview(player.view, atIndex: 0)
@@ -51,26 +48,16 @@ class PlayerViewController: UIViewController, PlayerDelegate
     
     @IBAction func didTapPlayButton()
     {
-        guard let player = self.player else
-        {
-            return
-        }
-        
-        player.playing ? player.pause() : player.play()
+        self.player.playing ? self.player.pause() : self.player.play()
     }
     
     @IBAction func didChangeSliderValue()
     {
-        guard let duration = self.player?.duration else
-        {
-            return
-        }
-        
         let value = Double(self.slider.value)
         
-        let time = value * duration
+        let time = value * self.player.duration
         
-        self.player?.seek(to: time)
+        self.player.seek(to: time)
     }
     
     // MARK: VideoPlayerDelegate
@@ -102,9 +89,9 @@ class PlayerViewController: UIViewController, PlayerDelegate
     
     func playerDidUpdateTime(player player: Player)
     {
-        if let time = self.player?.time, let duration = self.player?.duration where duration > 0
+        if player.duration > 0
         {
-            let ratio = time / duration
+            let ratio = player.time / player.duration
             
             if self.slider.highlighted == false
             {
@@ -119,7 +106,7 @@ class PlayerViewController: UIViewController, PlayerDelegate
         {
             let ratio = Int((player.bufferedTime / player.duration) * 100)
             
-            self.label.text = "\(ratio)%"
+            self.label.text = "Buffer: \(ratio)%"
         }
     }
 }

@@ -24,7 +24,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="t2E-Ha-YWj">
-                    <rect key="frame" x="110" y="613" width="195" height="31"/>
+                    <rect key="frame" x="110" y="613" width="251" height="31"/>
                     <connections>
                         <action selector="didChangeSliderValue" destination="-1" eventType="valueChanged" id="sZi-DP-Edv"/>
                     </connections>
@@ -43,29 +43,26 @@
                         <action selector="didTapPlayButton" destination="-1" eventType="touchUpInside" id="MDO-nJ-eMy"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wTe-h4-wSQ">
-                    <rect key="frame" x="319" y="618" width="40" height="20"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="40" id="9po-d2-f3F"/>
-                    </constraints>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="z4M-Kl-FdS">
+                    <rect key="frame" x="169" y="315" width="37" height="37"/>
+                </activityIndicatorView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Buffer: 0%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wTe-h4-wSQ">
+                    <rect key="frame" x="283" y="585" width="75.5" height="20"/>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="z4M-Kl-FdS">
-                    <rect key="frame" x="169" y="315" width="37" height="37"/>
-                </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="Eni-u8-ciz" firstAttribute="centerY" secondItem="t2E-Ha-YWj" secondAttribute="centerY" id="9WQ-Bm-c4I"/>
                 <constraint firstItem="z4M-Kl-FdS" firstAttribute="centerY" secondItem="0qd-Lt-f1X" secondAttribute="centerY" id="A5D-YY-4AS"/>
                 <constraint firstItem="t2E-Ha-YWj" firstAttribute="leading" secondItem="Eni-u8-ciz" secondAttribute="trailing" constant="16" id="GY7-fL-r6Y"/>
-                <constraint firstItem="wTe-h4-wSQ" firstAttribute="centerY" secondItem="t2E-Ha-YWj" secondAttribute="centerY" id="Gyj-dC-6Gs"/>
                 <constraint firstAttribute="trailing" secondItem="wTe-h4-wSQ" secondAttribute="trailing" constant="16" id="IUK-d5-dSi"/>
+                <constraint firstItem="t2E-Ha-YWj" firstAttribute="top" secondItem="wTe-h4-wSQ" secondAttribute="bottom" constant="8" id="PX1-mV-8hH"/>
                 <constraint firstItem="z4M-Kl-FdS" firstAttribute="centerX" secondItem="0qd-Lt-f1X" secondAttribute="centerX" id="RAv-W1-wFD"/>
                 <constraint firstAttribute="bottom" secondItem="t2E-Ha-YWj" secondAttribute="bottom" constant="24" id="VC3-fc-7lB"/>
-                <constraint firstItem="wTe-h4-wSQ" firstAttribute="leading" secondItem="t2E-Ha-YWj" secondAttribute="trailing" constant="16" id="tNC-UL-x8w"/>
+                <constraint firstAttribute="trailing" secondItem="t2E-Ha-YWj" secondAttribute="trailing" constant="16" id="ivj-29-iPN"/>
                 <constraint firstItem="Eni-u8-ciz" firstAttribute="leading" secondItem="0qd-Lt-f1X" secondAttribute="leading" constant="16" id="wqb-LX-wrL"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
