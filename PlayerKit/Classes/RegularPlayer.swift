@@ -24,6 +24,9 @@ public class RegularPlayer: NSObject, Player, ProvidesView
     
     // MARK: Public API
     
+    /// Sets an AVAsset on the player.
+    ///
+    /// - Parameter asset: The AVAsset
     public func set(asset asset: AVAsset)
     {
         // Prepare the old item for removal
@@ -55,8 +58,6 @@ public class RegularPlayer: NSObject, Player, ProvidesView
         {
             return AVPlayerLayer.self
         }
-        
-        // MARK: Public API
         
         func configureForPlayer(player player: AVPlayer)
         {
