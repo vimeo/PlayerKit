@@ -9,7 +9,7 @@ PlayerKit is a modular video player system.
 
 ### Motivation
 
-Vimeo supports various types of video and playback (360 video, Chromecast, etc.). A modular video playback system allows us to abstract the details of actual player away from the implementer.
+Vimeo supports various types of video and playback (360 video, Chromecast, etc.). PlayerKit allows the app to create, utilize, and interact with mutliple types of players in an abstract way.
 
 ### Goals
 
