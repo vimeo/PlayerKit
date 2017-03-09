@@ -23,7 +23,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 ## Requirements
 
 - iOS 8.0+ / tvOS 9.0+
-- Swift 2.3
+- Swift 2.3 (Swift 3 support coming soon)
 
 ## Installation
 
@@ -52,7 +52,7 @@ player.set(asset: AVURLAsset(URL: "https://example.com/video.mp4"))
 player.play()
 ```
 
-Optionally, an object can conform to PlayerDelegate to recieve updates from the player and perform actions such as UI updates.
+Optionally, an object can conform to PlayerDelegate to recieve updates from the player and perform actions such as UI updates. Check out the example project for an example of this.
 
 ```swift
 player.delegate = delegate
@@ -60,7 +60,7 @@ player.delegate = delegate
 
 ### Creating New Types of Players
 
-New types of players can be constructed by creating objects that conform to the Player protocol and call the delgate methods when appropriate.
+You can create your own new types of players by creating objects that conform to the Player protocol and call the delgate methods when appropriate.
 
 ## Author
 
