@@ -5,11 +5,26 @@
 [![License](https://img.shields.io/cocoapods/l/PlayerKit.svg?style=flat)](http://cocoapods.org/pods/PlayerKit)
 [![Platform](https://img.shields.io/cocoapods/p/PlayerKit.svg?style=flat)](http://cocoapods.org/pods/PlayerKit)
 
+PlayerKit is a modular video player system.
+
+### Motivation
+
+Vimeo supports various types of video and playback (360 video, Chromecast, etc.). A modular video playback system allows us to abstract the details of actual player away from the implementer.
+
+### Goals
+
+- Provide a common interface for creating different types of players that implement a common API and delegate callback strategy
+- Allow players to define their capabilities using protocol conformance
+- Provide an example player for playing regular videos
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 ## Requirements
+
+- iOS 8.0+ / tvOS 9.0+
+- Swift 2.3
 
 ## Installation
 
@@ -19,6 +34,34 @@ it, simply add the following line to your Podfile:
 ```ruby
 pod "PlayerKit"
 ```
+
+## Usage
+
+### Using RegularPlayer
+
+RegularPlayer is an implementation of Player used to play regular videos.
+
+To play a video:
+
+```swift
+let player = RegularPlayer()
+
+view.addSubview(player.view) // RegularPlayer conforms to `ProvidesView`, so we can add its view
+
+player.set(asset: AVURLAsset(URL: "https://example.com/video.mp4"))
+
+player.play()
+```
+
+Optionally, an object can conform to PlayerDelegate to recieve updates from the player and perform actions such as UI updates.
+
+```swift
+player.delegate = delegate
+```
+
+### Creating New Types of Players
+
+New types of players can be constructed by creating objects that conform to the Player protocol and call the delgate methods when appropriate.
 
 ## Author
 
