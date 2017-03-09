@@ -89,24 +89,28 @@ class PlayerViewController: UIViewController, PlayerDelegate
     
     func playerDidUpdateTime(player player: Player)
     {
-        if player.duration > 0
+        guard player.duration > 0 else
         {
-            let ratio = player.time / player.duration
-            
-            if self.slider.highlighted == false
-            {
-                self.slider.value = Float(ratio)
-            }
+            return
+        }
+        
+        let ratio = player.time / player.duration
+        
+        if self.slider.highlighted == false
+        {
+            self.slider.value = Float(ratio)
         }
     }
     
     func playerDidUpdateBufferedTime(player player: Player)
     {
-        if player.duration > 0
+        guard player.duration > 0 else
         {
-            let ratio = Int((player.bufferedTime / player.duration) * 100)
-            
-            self.label.text = "Buffer: \(ratio)%"
+            return
         }
+        
+        let ratio = Int((player.bufferedTime / player.duration) * 100)
+        
+        self.label.text = "Buffer: \(ratio)%"
     }
 }
