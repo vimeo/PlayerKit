@@ -11,6 +11,7 @@ import Foundation
 import AVFoundation
 import AVKit
 
+/// A RegularPlayer can be used to play regular videos.
 public class RegularPlayer: NSObject, Player, ProvidesView
 {
     private struct Constants
@@ -65,7 +66,7 @@ public class RegularPlayer: NSObject, Player, ProvidesView
         }
     }
     
-    private(set) public var view: UIView = RegularPlayerView(frame: .zero)
+    public let view: UIView = RegularPlayerView(frame: .zero)
     
     private var regularPlayerView: RegularPlayerView
     {
@@ -81,7 +82,7 @@ public class RegularPlayer: NSObject, Player, ProvidesView
     
     weak public var delegate: PlayerDelegate?
     
-    public var state: PlayerState = .Ready
+    public private(set) var state: PlayerState = .Ready
     {
         didSet
         {
@@ -94,7 +95,7 @@ public class RegularPlayer: NSObject, Player, ProvidesView
         return self.player.currentItem?.duration.timeInterval ?? 0
     }
     
-    public var time: NSTimeInterval = 0
+    public private(set) var time: NSTimeInterval = 0
     {
         didSet
         {
@@ -102,7 +103,7 @@ public class RegularPlayer: NSObject, Player, ProvidesView
         }
     }
     
-    public var bufferedTime: NSTimeInterval = 0
+    public private(set) var bufferedTime: NSTimeInterval = 0
     {
         didSet
         {
@@ -164,7 +165,7 @@ public class RegularPlayer: NSObject, Player, ProvidesView
     
     // MARK: Setup
     
-    func setupAirplay()
+    private func setupAirplay()
     {
         self.player.usesExternalPlaybackWhileExternalScreenIsActive = true
     }
