@@ -13,9 +13,8 @@ Vimeo supports various types of video and playback (360 video, Chromecast, etc.)
 
 ### Goals
 
-- Provide a common interface for creating different types of players that implement a common API and delegate callback strategy
+- Provide an interface defining a common API and delegate callback strategy that different types of players can implement
 - Allow players to define their capabilities using protocol conformance
-- Provide an example player for playing regular videos
 
 ## Example
 
