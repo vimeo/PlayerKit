@@ -11,7 +11,7 @@ import Foundation
 import AVFoundation
 import AVKit
 
-/// A RegularPlayer can be used to play regular videos.
+/// A RegularPlayer is used to play regular videos.
 public class RegularPlayer: NSObject, Player, ProvidesView
 {
     private struct Constants
