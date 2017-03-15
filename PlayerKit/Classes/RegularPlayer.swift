@@ -14,9 +14,9 @@ import AVKit
 /// A RegularPlayer is used to play regular videos.
 public class RegularPlayer: NSObject, Player, ProvidesView
 {
-    private struct Constants
+    public struct Constants
     {
-        static let TimeInterval: NSTimeInterval = 0.1
+        public static let TimeUpdateInterval: NSTimeInterval = 0.1
     }
     
     // MARK: Private Properties
@@ -78,7 +78,7 @@ public class RegularPlayer: NSObject, Player, ProvidesView
         return self.regularPlayerView.playerLayer
     }
     
-    // MARK: VideoPlayer
+    // MARK: Player
     
     weak public var delegate: PlayerDelegate?
     
@@ -207,7 +207,7 @@ public class RegularPlayer: NSObject, Player, ProvidesView
     {
         self.player.addObserver(self, forKeyPath: KeyPath.Player.Rate, options: [.Initial, .New], context: nil)
         
-        let interval = CMTimeMakeWithSeconds(Constants.TimeInterval, Int32(NSEC_PER_SEC))
+        let interval = CMTimeMakeWithSeconds(Constants.TimeUpdateInterval, Int32(NSEC_PER_SEC))
         
         self.playerTimeObserver = self.player.addPeriodicTimeObserverForInterval(interval, queue: dispatch_get_main_queue(), usingBlock: { [weak self] (cmTime) in
             
