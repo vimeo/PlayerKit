@@ -9,6 +9,7 @@
 import UIKit
 import AVKit
 
+/// A player error
 public enum PlayerError: Int
 {
     case Unknown
@@ -16,6 +17,9 @@ public enum PlayerError: Int
     
     private static let Domain = "com.vimeo.PlayerKit"
     
+    /// The associated error
+    ///
+    /// - Returns: The error
     public func error() -> NSError
     {
         switch self
