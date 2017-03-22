@@ -66,7 +66,7 @@ open class RegularPlayer: NSObject, Player, ProvidesView
         }
     }
     
-    open let view: UIView = RegularPlayerView(frame: .zero)
+    public let view: UIView = RegularPlayerView(frame: .zero)
     
     private var regularPlayerView: RegularPlayerView
     {
@@ -80,9 +80,9 @@ open class RegularPlayer: NSObject, Player, ProvidesView
     
     // MARK: Player
     
-    weak open var delegate: PlayerDelegate?
+    weak public var delegate: PlayerDelegate?
     
-    open private(set) var state: PlayerState = .ready
+    public private(set) var state: PlayerState = .ready
     {
         didSet
         {
@@ -90,12 +90,12 @@ open class RegularPlayer: NSObject, Player, ProvidesView
         }
     }
     
-    open var duration: TimeInterval
+    public var duration: TimeInterval
     {
         return self.player.currentItem?.duration.timeInterval ?? 0
     }
     
-    open private(set) var time: TimeInterval = 0
+    public private(set) var time: TimeInterval = 0
     {
         didSet
         {
@@ -103,7 +103,7 @@ open class RegularPlayer: NSObject, Player, ProvidesView
         }
     }
     
-    open private(set) var bufferedTime: TimeInterval = 0
+    public private(set) var bufferedTime: TimeInterval = 0
     {
         didSet
         {
@@ -111,17 +111,17 @@ open class RegularPlayer: NSObject, Player, ProvidesView
         }
     }
     
-    open var playing: Bool
+    public var playing: Bool
     {
         return self.player.rate > 0
     }
     
-    open var error: NSError?
+    public var error: NSError?
     {
         return self.player.errorForPlayerOrItem
     }
     
-    open func seek(to time: TimeInterval)
+    public func seek(to time: TimeInterval)
     {
         let cmTime = CMTimeMakeWithSeconds(time, Int32(NSEC_PER_SEC))
         
@@ -130,12 +130,12 @@ open class RegularPlayer: NSObject, Player, ProvidesView
         self.time = time
     }
     
-    open func play()
+    public func play()
     {
         self.player.play()
     }
     
-    open func pause()
+    public func pause()
     {
         self.player.pause()
     }
