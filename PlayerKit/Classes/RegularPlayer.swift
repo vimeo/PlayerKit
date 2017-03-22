@@ -258,7 +258,7 @@ open class RegularPlayer: NSObject, Player, ProvidesView
             }
         }
             
-            // Player Observers
+        // Player Observers
             
         else if keyPath == KeyPath.Player.Rate
         {
@@ -268,7 +268,7 @@ open class RegularPlayer: NSObject, Player, ProvidesView
             }
         }
             
-            // Fall Through Observers
+        // Fall Through Observers
             
         else
         {
