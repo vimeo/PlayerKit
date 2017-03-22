@@ -55,7 +55,7 @@ open class RegularPlayer: NSObject, Player, ProvidesView
             return self.layer as! AVPlayerLayer
         }
         
-        override class var layerClass : AnyClass
+        override class var layerClass: AnyClass
         {
             return AVPlayerLayer.self
         }
