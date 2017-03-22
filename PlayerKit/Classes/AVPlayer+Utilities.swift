@@ -9,9 +9,9 @@
 import Foundation
 import AVFoundation
 
-internal extension AVPlayer
+extension AVPlayer
 {
-    internal var errorForPlayerOrItem: NSError?
+    var errorForPlayerOrItem: NSError?
     {
         // First try to return the current item's error
         
