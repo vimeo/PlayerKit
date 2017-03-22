@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/cocoapods/l/PlayerKit.svg?style=flat)](http://cocoapods.org/pods/PlayerKit)
 [![Platform](https://img.shields.io/cocoapods/p/PlayerKit.svg?style=flat)](http://cocoapods.org/pods/PlayerKit)
 
-PlayerKit is a modular video player system.
+PlayerKit is a modular video player system for iOS and tvOS.
 
 ### Motivation
 
