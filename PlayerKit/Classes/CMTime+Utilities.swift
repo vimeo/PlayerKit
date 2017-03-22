@@ -11,7 +11,7 @@ import AVFoundation
 
 internal extension CMTime
 {
-    internal var timeInterval: NSTimeInterval?
+    internal var timeInterval: TimeInterval?
     {
         if CMTIME_IS_INVALID(self) || CMTIME_IS_INDEFINITE(self)
         {

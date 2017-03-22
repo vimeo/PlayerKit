@@ -12,9 +12,9 @@ import AVFoundation
 
 class PlayerViewController: UIViewController, PlayerDelegate
 {
-    private struct Constants
+    fileprivate struct Constants
     {
-        static let VideoURL = NSURL(string: "https://github.com/vimeo/PlayerKit/blob/master/Example/PlayerKit/video.mp4?raw=true")!
+        static let VideoURL = URL(string: "https://github.com/vimeo/PlayerKit/blob/master/Example/PlayerKit/video.mp4?raw=true")!
     }
     
     @IBOutlet weak var playButton: UIButton!
@@ -22,7 +22,7 @@ class PlayerViewController: UIViewController, PlayerDelegate
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    private let player = RegularPlayer()
+    fileprivate let player = RegularPlayer()
     
     override func viewDidLoad()
     {
@@ -32,16 +32,16 @@ class PlayerViewController: UIViewController, PlayerDelegate
 
         self.addPlayerToView()
         
-        self.player.set(asset: AVURLAsset(URL: Constants.VideoURL))
+        self.player.set(asset: AVURLAsset(url: Constants.VideoURL))
     }
     
     // MARK: Setup
     
-    private func addPlayerToView()
+    fileprivate func addPlayerToView()
     {
-        player.view.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        player.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         player.view.frame = self.view.bounds
-        self.view.insertSubview(player.view, atIndex: 0)
+        self.view.insertSubview(player.view, at: 0)
     }
     
     // MARK: Actions
@@ -62,32 +62,32 @@ class PlayerViewController: UIViewController, PlayerDelegate
     
     // MARK: VideoPlayerDelegate
     
-    func playerDidUpdateState(player player: Player, previousState: PlayerState)
+    func playerDidUpdateState(player: Player, previousState: PlayerState)
     {
-        self.activityIndicator.hidden = true
+        self.activityIndicator.isHidden = true
         
         switch player.state
         {
-        case .Loading:
+        case .loading:
             
-            self.activityIndicator.hidden = false
+            self.activityIndicator.isHidden = false
             
-        case .Ready:
+        case .ready:
             
             break
             
-        case .Failed:
+        case .failed:
             
             NSLog("🚫 \(player.error)")
         }
     }
     
-    func playerDidUpdatePlaying(player player: Player)
+    func playerDidUpdatePlaying(player: Player)
     {
-        self.playButton.selected = player.playing
+        self.playButton.isSelected = player.playing
     }
     
-    func playerDidUpdateTime(player player: Player)
+    func playerDidUpdateTime(player: Player)
     {
         guard player.duration > 0 else
         {
@@ -96,13 +96,13 @@ class PlayerViewController: UIViewController, PlayerDelegate
         
         let ratio = player.time / player.duration
         
-        if self.slider.highlighted == false
+        if self.slider.isHighlighted == false
         {
             self.slider.value = Float(ratio)
         }
     }
     
-    func playerDidUpdateBufferedTime(player player: Player)
+    func playerDidUpdateBufferedTime(player: Player)
     {
         guard player.duration > 0 else
         {

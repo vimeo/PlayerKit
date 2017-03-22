@@ -12,10 +12,10 @@ import AVKit
 /// A player error
 public enum PlayerError: Int
 {
-    case Unknown
-    case Loading
+    case unknown
+    case loading
     
-    private static let Domain = "com.vimeo.PlayerKit"
+    fileprivate static let Domain = "com.vimeo.PlayerKit"
     
     /// The associated error
     ///
@@ -24,13 +24,13 @@ public enum PlayerError: Int
     {
         switch self
         {
-        case .Unknown:
+        case .unknown:
             
-            return NSError(domain: self.dynamicType.Domain, code: self.rawValue, userInfo: [NSLocalizedDescriptionKey: "An unknown error occurred."])
+            return NSError(domain: type(of: self).Domain, code: self.rawValue, userInfo: [NSLocalizedDescriptionKey: "An unknown error occurred."])
             
-        case .Loading:
+        case .loading:
             
-            return NSError(domain: self.dynamicType.Domain, code: self.rawValue, userInfo: [NSLocalizedDescriptionKey: "An error occurred while loading the content."])
+            return NSError(domain: type(of: self).Domain, code: self.rawValue, userInfo: [NSLocalizedDescriptionKey: "An error occurred while loading the content."])
         }
     }
 }
@@ -42,18 +42,18 @@ public enum PlayerError: Int
 /// - Failed: The player has failed
 @objc public enum PlayerState: Int
 {
-    case Loading
-    case Ready
-    case Failed
+    case loading
+    case ready
+    case failed
 }
 
 /// An object that adopts the PlayerDelegate protocol can receive updates from the player.
 @objc public protocol PlayerDelegate: class
 {
-    func playerDidUpdateState(player player: Player, previousState: PlayerState)
-    func playerDidUpdatePlaying(player player: Player)
-    func playerDidUpdateTime(player player: Player)
-    func playerDidUpdateBufferedTime(player player: Player)
+    func playerDidUpdateState(player: Player, previousState: PlayerState)
+    func playerDidUpdatePlaying(player: Player)
+    func playerDidUpdateTime(player: Player)
+    func playerDidUpdateBufferedTime(player: Player)
 }
 
 /// An object that adopts the Player protocol is responsible for implementing the API and calling PlayerDelegate methods where appropriate.
@@ -63,11 +63,11 @@ public enum PlayerError: Int
     
     var state: PlayerState { get }
     
-    var duration: NSTimeInterval { get }
+    var duration: TimeInterval { get }
     
-    var time: NSTimeInterval { get }
+    var time: TimeInterval { get }
     
-    var bufferedTime: NSTimeInterval { get }
+    var bufferedTime: TimeInterval { get }
     
     var playing: Bool { get }
     
@@ -76,7 +76,7 @@ public enum PlayerError: Int
     /// Seeks to the specified time
     ///
     /// - Parameter time: The specified time
-    func seek(to time: NSTimeInterval)
+    func seek(to time: TimeInterval)
     
     /// Play the video
     func play()

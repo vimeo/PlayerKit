@@ -25,7 +25,7 @@ internal extension AVPlayer
             }
             else
             {
-                return error
+                return error as NSError?
             }
         }
         
@@ -33,7 +33,7 @@ internal extension AVPlayer
         
         if let error = self.error
         {
-            return error
+            return error as NSError?
         }
         
         // An error cannot be found
