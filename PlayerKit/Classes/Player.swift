@@ -15,7 +15,7 @@ public enum PlayerError: Int
     case unknown
     case loading
     
-    fileprivate static let Domain = "com.vimeo.PlayerKit"
+    private static let Domain = "com.vimeo.PlayerKit"
     
     /// The associated error
     ///

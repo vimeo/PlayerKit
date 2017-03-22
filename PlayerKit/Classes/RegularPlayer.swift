@@ -48,7 +48,7 @@ open class RegularPlayer: NSObject, Player, ProvidesView
     
     // MARK: ProvidesView
     
-    fileprivate class RegularPlayerView: UIView
+    private class RegularPlayerView: UIView
     {
         var playerLayer: AVPlayerLayer
         {
@@ -68,12 +68,12 @@ open class RegularPlayer: NSObject, Player, ProvidesView
     
     open let view: UIView = RegularPlayerView(frame: .zero)
     
-    fileprivate var regularPlayerView: RegularPlayerView
+    private var regularPlayerView: RegularPlayerView
     {
         return self.view as! RegularPlayerView
     }
     
-    fileprivate var playerLayer: AVPlayerLayer
+    private var playerLayer: AVPlayerLayer
     {
         return self.regularPlayerView.playerLayer
     }
@@ -82,7 +82,7 @@ open class RegularPlayer: NSObject, Player, ProvidesView
     
     weak open var delegate: PlayerDelegate?
     
-    open fileprivate(set) var state: PlayerState = .ready
+    open private(set) var state: PlayerState = .ready
     {
         didSet
         {
@@ -95,7 +95,7 @@ open class RegularPlayer: NSObject, Player, ProvidesView
         return self.player.currentItem?.duration.timeInterval ?? 0
     }
     
-    open fileprivate(set) var time: TimeInterval = 0
+    open private(set) var time: TimeInterval = 0
     {
         didSet
         {
@@ -103,7 +103,7 @@ open class RegularPlayer: NSObject, Player, ProvidesView
         }
     }
     
-    open fileprivate(set) var bufferedTime: TimeInterval = 0
+    open private(set) var bufferedTime: TimeInterval = 0
     {
         didSet
         {
@@ -165,14 +165,14 @@ open class RegularPlayer: NSObject, Player, ProvidesView
     
     // MARK: Setup
     
-    fileprivate func setupAirplay()
+    private func setupAirplay()
     {
         self.player.usesExternalPlaybackWhileExternalScreenIsActive = true
     }
     
     // MARK: Observers
     
-    fileprivate struct KeyPath
+    private struct KeyPath
     {
         struct Player
         {
@@ -187,23 +187,23 @@ open class RegularPlayer: NSObject, Player, ProvidesView
         }
     }
     
-    fileprivate var playerTimeObserver: AnyObject?
+    private var playerTimeObserver: Any?
     
-    fileprivate func addPlayerItemObservers(toPlayerItem playerItem: AVPlayerItem)
+    private func addPlayerItemObservers(toPlayerItem playerItem: AVPlayerItem)
     {
         playerItem.addObserver(self, forKeyPath: KeyPath.PlayerItem.Status, options: [.initial, .new], context: nil)
         playerItem.addObserver(self, forKeyPath: KeyPath.PlayerItem.PlaybackLikelyToKeepUp, options: [.initial, .new], context: nil)
         playerItem.addObserver(self, forKeyPath: KeyPath.PlayerItem.LoadedTimeRanges, options: [.initial, .new], context: nil)
     }
     
-    fileprivate func removePlayerItemObservers(fromPlayerItem playerItem: AVPlayerItem)
+    private func removePlayerItemObservers(fromPlayerItem playerItem: AVPlayerItem)
     {
         playerItem.removeObserver(self, forKeyPath: KeyPath.PlayerItem.Status, context: nil)
         playerItem.removeObserver(self, forKeyPath: KeyPath.PlayerItem.PlaybackLikelyToKeepUp, context: nil)
         playerItem.removeObserver(self, forKeyPath: KeyPath.PlayerItem.LoadedTimeRanges, context: nil)
     }
     
-    fileprivate func addPlayerObservers()
+    private func addPlayerObservers()
     {
         self.player.addObserver(self, forKeyPath: KeyPath.Player.Rate, options: [.initial, .new], context: nil)
         
@@ -215,10 +215,10 @@ open class RegularPlayer: NSObject, Player, ProvidesView
             {
                 strongSelf.time = time
             }
-        }) as AnyObject?
+        })
     }
     
-    fileprivate func removePlayerObservers()
+    private func removePlayerObservers()
     {
         self.player.removeObserver(self, forKeyPath: KeyPath.Player.Rate, context: nil)
         
@@ -238,21 +238,21 @@ open class RegularPlayer: NSObject, Player, ProvidesView
         
         if keyPath == KeyPath.PlayerItem.Status
         {
-            if let statusInt = change?[NSKeyValueChangeKey.newKey] as? Int, let status = AVPlayerItemStatus(rawValue: statusInt)
+            if let statusInt = change?[.newKey] as? Int, let status = AVPlayerItemStatus(rawValue: statusInt)
             {
                 self.playerItemStatusDidChange(status: status)
             }
         }
         else if keyPath == KeyPath.PlayerItem.PlaybackLikelyToKeepUp
         {
-            if let playbackLikelyToKeepUp = change?[NSKeyValueChangeKey.newKey] as? Bool
+            if let playbackLikelyToKeepUp = change?[.newKey] as? Bool
             {
                 self.playerItemPlaybackLikelyToKeepUpDidChange(playbackLikelyToKeepUp: playbackLikelyToKeepUp)
             }
         }
         else if keyPath == KeyPath.PlayerItem.LoadedTimeRanges
         {
-            if let loadedTimeRanges = change?[NSKeyValueChangeKey.newKey] as? [NSValue]
+            if let loadedTimeRanges = change?[.newKey] as? [NSValue]
             {
                 self.playerItemLoadedTimeRangesDidChange(loadedTimeRanges: loadedTimeRanges)
             }
@@ -262,7 +262,7 @@ open class RegularPlayer: NSObject, Player, ProvidesView
             
         else if keyPath == KeyPath.Player.Rate
         {
-            if let rate = change?[NSKeyValueChangeKey.newKey] as? Float
+            if let rate = change?[.newKey] as? Float
             {
                 self.playerRateDidChange(rate: rate)
             }
@@ -278,7 +278,7 @@ open class RegularPlayer: NSObject, Player, ProvidesView
     
     // MARK: Observation Helpers
     
-    fileprivate func playerItemStatusDidChange(status: AVPlayerItemStatus)
+    private func playerItemStatusDidChange(status: AVPlayerItemStatus)
     {
         switch status
         {
@@ -296,19 +296,19 @@ open class RegularPlayer: NSObject, Player, ProvidesView
         }
     }
     
-    fileprivate func playerRateDidChange(rate: Float)
+    private func playerRateDidChange(rate: Float)
     {
         self.delegate?.playerDidUpdatePlaying(player: self)
     }
     
-    fileprivate func playerItemPlaybackLikelyToKeepUpDidChange(playbackLikelyToKeepUp: Bool)
+    private func playerItemPlaybackLikelyToKeepUpDidChange(playbackLikelyToKeepUp: Bool)
     {
         let state: PlayerState = playbackLikelyToKeepUp ? .ready : .loading
         
         self.state = state
     }
     
-    fileprivate func playerItemLoadedTimeRangesDidChange(loadedTimeRanges: [NSValue])
+    private func playerItemLoadedTimeRangesDidChange(loadedTimeRanges: [NSValue])
     {
         guard let bufferedCMTime = loadedTimeRanges.first?.timeRangeValue.end, let bufferedTime = bufferedCMTime.timeInterval else
         {

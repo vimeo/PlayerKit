@@ -12,7 +12,7 @@ import AVFoundation
 
 class PlayerViewController: UIViewController, PlayerDelegate
 {
-    fileprivate struct Constants
+    private struct Constants
     {
         static let VideoURL = URL(string: "https://github.com/vimeo/PlayerKit/blob/master/Example/PlayerKit/video.mp4?raw=true")!
     }
@@ -22,7 +22,7 @@ class PlayerViewController: UIViewController, PlayerDelegate
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    fileprivate let player = RegularPlayer()
+    private let player = RegularPlayer()
     
     override func viewDidLoad()
     {
@@ -37,7 +37,7 @@ class PlayerViewController: UIViewController, PlayerDelegate
     
     // MARK: Setup
     
-    fileprivate func addPlayerToView()
+    private func addPlayerToView()
     {
         player.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         player.view.frame = self.view.bounds
