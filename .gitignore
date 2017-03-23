@@ -57,5 +57,4 @@ fastlane/screenshots
 fastlane/test_output
 
 # Exclude fastlane xcode log
-xcodebuild.log
 PlayerKit_Example-PlayerKit-Example.log

@@ -1,18 +1,18 @@
 general:
   artifacts:
-    - "xcodebuild.log"
     - "build/Logs"
+    - "PlayerKit_Example-PlayerKit-Example.log"
 machine:
   xcode:
-    version: 8.0
+    version: 8.2.1
 
 dependencies:
-    override:
-        - bundle install
-    cache_directories:
-        - "~/.cocoapods"
-        - "Pods"
-        - "vendor/bundle"
+  override:
+    - bundle install --deployment
+  cache_directories:
+    - "~/.cocoapods"
+    - "Example/Pods"
+    - "vendor/bundle"
 
 test:
   override:

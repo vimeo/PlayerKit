@@ -29,11 +29,6 @@ xcode-select --install
 </table>
 # Available Actions
 ## iOS
-### ios build_example
-```
-fastlane ios build_example
-```
-build the example project
 ### ios test
 ```
 fastlane ios test

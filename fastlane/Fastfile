@@ -17,31 +17,7 @@ default_platform :ios
 
 platform :ios do
   before_all do
-    ensure_xcode_version(version: "8.0")
-  end
-
-  desc "build the example project"
-  lane :build_example do |options|
-
-    cocoapods(
-      podfile: "Example/"
-    )
-
-    # cant use gym: https://github.com/fastlane/fastlane/issues/1816
-    xcodebuild(
-      workspace: "Example/PlayerKit.xcworkspace",
-      scheme: "PlayerKit-Example",
-      configuration: "Release",
-      build: true,
-      destination: "generic/platform=iOS",
-      build_settings: {
-        "CODE_SIGNING_REQUIRED" => "NO",
-        "CODE_SIGN_IDENTITY" => ""
-      },
-      buildlog_path: ".",
-      derived_data_path: "build/"
-    )
-
+    ensure_xcode_version(version: "8.2.1")
   end
 
   desc "run tests"
