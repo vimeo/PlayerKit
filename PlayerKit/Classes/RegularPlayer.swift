@@ -12,23 +12,23 @@ import AVFoundation
 import AVKit
 
 /// A RegularPlayer is used to play regular videos.
-public class RegularPlayer: NSObject, Player, ProvidesView
+open class RegularPlayer: NSObject, Player, ProvidesView
 {
     public struct Constants
     {
-        public static let TimeUpdateInterval: NSTimeInterval = 0.1
+        public static let TimeUpdateInterval: TimeInterval = 0.1
     }
     
     // MARK: Private Properties
     
-    private var player = AVPlayer()
+    fileprivate var player = AVPlayer()
     
     // MARK: Public API
     
     /// Sets an AVAsset on the player.
     ///
     /// - Parameter asset: The AVAsset
-    public func set(asset asset: AVAsset)
+    open func set(asset: AVAsset)
     {
         // Prepare the old item for removal
         
@@ -43,7 +43,7 @@ public class RegularPlayer: NSObject, Player, ProvidesView
         
         self.addPlayerItemObservers(toPlayerItem: playerItem)
         
-        self.player.replaceCurrentItemWithPlayerItem(playerItem)
+        self.player.replaceCurrentItem(with: playerItem)
     }
     
     // MARK: ProvidesView
@@ -55,12 +55,12 @@ public class RegularPlayer: NSObject, Player, ProvidesView
             return self.layer as! AVPlayerLayer
         }
         
-        override class func layerClass() -> AnyClass
+        override class var layerClass: AnyClass
         {
             return AVPlayerLayer.self
         }
         
-        func configureForPlayer(player player: AVPlayer)
+        func configureForPlayer(player: AVPlayer)
         {
             (self.layer as! AVPlayerLayer).player = player
         }
@@ -82,7 +82,7 @@ public class RegularPlayer: NSObject, Player, ProvidesView
     
     weak public var delegate: PlayerDelegate?
     
-    public private(set) var state: PlayerState = .Ready
+    public private(set) var state: PlayerState = .ready
     {
         didSet
         {
@@ -90,12 +90,12 @@ public class RegularPlayer: NSObject, Player, ProvidesView
         }
     }
     
-    public var duration: NSTimeInterval
+    public var duration: TimeInterval
     {
         return self.player.currentItem?.duration.timeInterval ?? 0
     }
     
-    public private(set) var time: NSTimeInterval = 0
+    public private(set) var time: TimeInterval = 0
     {
         didSet
         {
@@ -103,7 +103,7 @@ public class RegularPlayer: NSObject, Player, ProvidesView
         }
     }
     
-    public private(set) var bufferedTime: NSTimeInterval = 0
+    public private(set) var bufferedTime: TimeInterval = 0
     {
         didSet
         {
@@ -121,11 +121,11 @@ public class RegularPlayer: NSObject, Player, ProvidesView
         return self.player.errorForPlayerOrItem
     }
     
-    public func seek(to time: NSTimeInterval)
+    public func seek(to time: TimeInterval)
     {
         let cmTime = CMTimeMakeWithSeconds(time, Int32(NSEC_PER_SEC))
         
-        self.player.seekToTime(cmTime, toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
+        self.player.seek(to: cmTime, toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
         
         self.time = time
     }
@@ -187,13 +187,13 @@ public class RegularPlayer: NSObject, Player, ProvidesView
         }
     }
     
-    private var playerTimeObserver: AnyObject?
+    private var playerTimeObserver: Any?
     
     private func addPlayerItemObservers(toPlayerItem playerItem: AVPlayerItem)
     {
-        playerItem.addObserver(self, forKeyPath: KeyPath.PlayerItem.Status, options: [.Initial, .New], context: nil)
-        playerItem.addObserver(self, forKeyPath: KeyPath.PlayerItem.PlaybackLikelyToKeepUp, options: [.Initial, .New], context: nil)
-        playerItem.addObserver(self, forKeyPath: KeyPath.PlayerItem.LoadedTimeRanges, options: [.Initial, .New], context: nil)
+        playerItem.addObserver(self, forKeyPath: KeyPath.PlayerItem.Status, options: [.initial, .new], context: nil)
+        playerItem.addObserver(self, forKeyPath: KeyPath.PlayerItem.PlaybackLikelyToKeepUp, options: [.initial, .new], context: nil)
+        playerItem.addObserver(self, forKeyPath: KeyPath.PlayerItem.LoadedTimeRanges, options: [.initial, .new], context: nil)
     }
     
     private func removePlayerItemObservers(fromPlayerItem playerItem: AVPlayerItem)
@@ -205,11 +205,11 @@ public class RegularPlayer: NSObject, Player, ProvidesView
     
     private func addPlayerObservers()
     {
-        self.player.addObserver(self, forKeyPath: KeyPath.Player.Rate, options: [.Initial, .New], context: nil)
+        self.player.addObserver(self, forKeyPath: KeyPath.Player.Rate, options: [.initial, .new], context: nil)
         
         let interval = CMTimeMakeWithSeconds(Constants.TimeUpdateInterval, Int32(NSEC_PER_SEC))
         
-        self.playerTimeObserver = self.player.addPeriodicTimeObserverForInterval(interval, queue: dispatch_get_main_queue(), usingBlock: { [weak self] (cmTime) in
+        self.playerTimeObserver = self.player.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { [weak self] (cmTime) in
             
             if let strongSelf = self, let time = cmTime.timeInterval
             {
@@ -232,85 +232,85 @@ public class RegularPlayer: NSObject, Player, ProvidesView
     
     // MARK: Observation
     
-    override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>)
+    override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?)
     {
         // Player Item Observers
         
         if keyPath == KeyPath.PlayerItem.Status
         {
-            if let statusInt = change?[NSKeyValueChangeNewKey] as? Int, let status = AVPlayerItemStatus(rawValue: statusInt)
+            if let statusInt = change?[.newKey] as? Int, let status = AVPlayerItemStatus(rawValue: statusInt)
             {
                 self.playerItemStatusDidChange(status: status)
             }
         }
         else if keyPath == KeyPath.PlayerItem.PlaybackLikelyToKeepUp
         {
-            if let playbackLikelyToKeepUp = change?[NSKeyValueChangeNewKey] as? Bool
+            if let playbackLikelyToKeepUp = change?[.newKey] as? Bool
             {
                 self.playerItemPlaybackLikelyToKeepUpDidChange(playbackLikelyToKeepUp: playbackLikelyToKeepUp)
             }
         }
         else if keyPath == KeyPath.PlayerItem.LoadedTimeRanges
         {
-            if let loadedTimeRanges = change?[NSKeyValueChangeNewKey] as? [NSValue]
+            if let loadedTimeRanges = change?[.newKey] as? [NSValue]
             {
                 self.playerItemLoadedTimeRangesDidChange(loadedTimeRanges: loadedTimeRanges)
             }
         }
             
-            // Player Observers
+        // Player Observers
             
         else if keyPath == KeyPath.Player.Rate
         {
-            if let rate = change?[NSKeyValueChangeNewKey] as? Float
+            if let rate = change?[.newKey] as? Float
             {
                 self.playerRateDidChange(rate: rate)
             }
         }
             
-            // Fall Through Observers
+        // Fall Through Observers
             
         else
         {
-            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
     
     // MARK: Observation Helpers
     
-    private func playerItemStatusDidChange(status status: AVPlayerItemStatus)
+    private func playerItemStatusDidChange(status: AVPlayerItemStatus)
     {
         switch status
         {
-        case .Unknown:
+        case .unknown:
             
-            self.state = .Loading
+            self.state = .loading
             
-        case .ReadyToPlay:
+        case .readyToPlay:
             
-            self.state = .Ready
+            self.state = .ready
             
-        case .Failed:
+        case .failed:
             
-            self.state = .Failed
+            self.state = .failed
         }
     }
     
-    private func playerRateDidChange(rate rate: Float)
+    private func playerRateDidChange(rate: Float)
     {
         self.delegate?.playerDidUpdatePlaying(player: self)
     }
     
-    private func playerItemPlaybackLikelyToKeepUpDidChange(playbackLikelyToKeepUp playbackLikelyToKeepUp: Bool)
+    private func playerItemPlaybackLikelyToKeepUpDidChange(playbackLikelyToKeepUp: Bool)
     {
-        let state: PlayerState = playbackLikelyToKeepUp ? .Ready : .Loading
+        let state: PlayerState = playbackLikelyToKeepUp ? .ready : .loading
         
         self.state = state
     }
     
-    private func playerItemLoadedTimeRangesDidChange(loadedTimeRanges loadedTimeRanges: [NSValue])
+    private func playerItemLoadedTimeRangesDidChange(loadedTimeRanges: [NSValue])
     {
-        guard let bufferedCMTime = loadedTimeRanges.first?.CMTimeRangeValue.end, let bufferedTime = bufferedCMTime.timeInterval else
+        guard let bufferedCMTime = loadedTimeRanges.first?.timeRangeValue.end, let bufferedTime = bufferedCMTime.timeInterval else
         {
             return
         }
@@ -322,7 +322,7 @@ public class RegularPlayer: NSObject, Player, ProvidesView
     
     #if os(iOS)
     @available(iOS 9.0, *)
-    private lazy var _pictureInPictureController: AVPictureInPictureController? = {
+    fileprivate lazy var _pictureInPictureController: AVPictureInPictureController? = {
         AVPictureInPictureController(playerLayer: self.regularPlayerView.playerLayer)
     }()
     #endif
