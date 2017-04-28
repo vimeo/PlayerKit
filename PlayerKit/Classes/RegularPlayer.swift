@@ -28,7 +28,7 @@ open class RegularPlayer: NSObject, Player, ProvidesView
     /// Sets an AVAsset on the player.
     ///
     /// - Parameter asset: The AVAsset
-    open func set(asset: AVAsset)
+    open func set(_ asset: AVAsset)
     {
         // Prepare the old item for removal
         
