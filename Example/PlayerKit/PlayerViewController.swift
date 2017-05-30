@@ -32,7 +32,7 @@ class PlayerViewController: UIViewController, PlayerDelegate
 
         self.addPlayerToView()
         
-        self.player.set(asset: AVURLAsset(url: Constants.VideoURL))
+        self.player.set(AVURLAsset(url: Constants.VideoURL))
     }
     
     // MARK: Setup
@@ -78,7 +78,7 @@ class PlayerViewController: UIViewController, PlayerDelegate
             
         case .failed:
             
-            NSLog("🚫 \(player.error)")
+            NSLog("🚫 \(String(describing: player.error))")
         }
     }
     
