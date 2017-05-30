@@ -9,9 +9,9 @@
 import Foundation
 import AVFoundation
 
-internal extension CMTime
+extension CMTime
 {
-    internal var timeInterval: NSTimeInterval?
+    var timeInterval: TimeInterval?
     {
         if CMTIME_IS_INVALID(self) || CMTIME_IS_INDEFINITE(self)
         {

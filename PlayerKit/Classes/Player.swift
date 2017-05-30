@@ -9,24 +9,28 @@
 import UIKit
 import AVKit
 
-internal enum PlayerError: Int
+/// A player error
+public enum PlayerError: Int
 {
-    case Unknown
-    case Loading
+    case unknown
+    case loading
     
     private static let Domain = "com.vimeo.PlayerKit"
     
-    func error() -> NSError
+    /// The associated error
+    ///
+    /// - Returns: The error
+    public func error() -> NSError
     {
         switch self
         {
-        case .Unknown:
+        case .unknown:
             
-            return NSError(domain: self.dynamicType.Domain, code: self.rawValue, userInfo: [NSLocalizedDescriptionKey: "An unknown error occurred."])
+            return NSError(domain: type(of: self).Domain, code: self.rawValue, userInfo: [NSLocalizedDescriptionKey: "An unknown error occurred."])
             
-        case .Loading:
+        case .loading:
             
-            return NSError(domain: self.dynamicType.Domain, code: self.rawValue, userInfo: [NSLocalizedDescriptionKey: "An error occurred while loading the content."])
+            return NSError(domain: type(of: self).Domain, code: self.rawValue, userInfo: [NSLocalizedDescriptionKey: "An error occurred while loading the content."])
         }
     }
 }
@@ -36,34 +40,34 @@ internal enum PlayerError: Int
 /// - Loading: The player is loading or buffering
 /// - Ready: The player is ready for playback
 /// - Failed: The player has failed
-public enum PlayerState: Int
+@objc public enum PlayerState: Int
 {
-    case Loading
-    case Ready
-    case Failed
+    case loading
+    case ready
+    case failed
 }
 
 /// An object that adopts the PlayerDelegate protocol can receive updates from the player.
-public protocol PlayerDelegate: class
+@objc public protocol PlayerDelegate: class
 {
-    func playerDidUpdateState(player player: Player, previousState: PlayerState)
-    func playerDidUpdatePlaying(player player: Player)
-    func playerDidUpdateTime(player player: Player)
-    func playerDidUpdateBufferedTime(player player: Player)
+    func playerDidUpdateState(player: Player, previousState: PlayerState)
+    func playerDidUpdatePlaying(player: Player)
+    func playerDidUpdateTime(player: Player)
+    func playerDidUpdateBufferedTime(player: Player)
 }
 
 /// An object that adopts the Player protocol is responsible for implementing the API and calling PlayerDelegate methods where appropriate.
-public protocol Player: class
+@objc public protocol Player: class
 {
     weak var delegate: PlayerDelegate? { get set }
     
     var state: PlayerState { get }
     
-    var duration: NSTimeInterval { get }
+    var duration: TimeInterval { get }
     
-    var time: NSTimeInterval { get }
+    var time: TimeInterval { get }
     
-    var bufferedTime: NSTimeInterval { get }
+    var bufferedTime: TimeInterval { get }
     
     var playing: Bool { get }
     
@@ -72,7 +76,7 @@ public protocol Player: class
     /// Seeks to the specified time
     ///
     /// - Parameter time: The specified time
-    func seek(to time: NSTimeInterval)
+    func seek(to time: TimeInterval)
     
     /// Play the video
     func play()
@@ -84,7 +88,7 @@ public protocol Player: class
 // MARK: Identity Protocols
 
 /// A player that adopts the ProvidesView protocol is capable of providing a view to be added to a view hierarchy.
-public protocol ProvidesView
+@objc public protocol ProvidesView
 {
     var view: UIView { get }
 }
@@ -92,26 +96,26 @@ public protocol ProvidesView
 // MARK: Capability Protocols
 
 /// A player that adopts the ProvidesView protocol is capable of AirPlay playback.
-public protocol AirPlayCapable
+@objc public protocol AirPlayCapable
 {
     var isAirPlayEnabled: Bool { get set }
 }
 
 /// A player that adopts the ProvidesView protocol is capable of setting audio volume.
-public protocol VolumeCapable
+@objc public protocol VolumeCapable
 {
     var volume: Float { get set }
 }
 
 /// A player that adopts the ProvidesView protocol is capable of setting the video fill mode.
-public protocol FillModeCapable
+@objc public protocol FillModeCapable
 {
     var fillMode: String { get set }
 }
 
 #if os(iOS)
 /// A player that adopts the ProvidesView protocol is capable of Picture in Picture playback.
-public protocol PictureInPictureCapable
+@objc public protocol PictureInPictureCapable
 {
     @available(iOS 9.0, *)
     var pictureInPictureController: AVPictureInPictureController? { get }
