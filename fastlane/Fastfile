@@ -1,0 +1,60 @@
+# Customise this file, documentation can be found here:
+# https://github.com/fastlane/fastlane/tree/master/fastlane/docs
+# All available actions: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Actions.md
+# can also be listed using the `fastlane actions` command
+
+# Change the syntax highlighting to Ruby
+# All lines starting with a # are ignored when running `fastlane`
+
+# If you want to automatically update fastlane if a new version is available:
+# update_fastlane
+
+# This is the minimum version number required.
+# Update this, if you use features of a newer version
+fastlane_version "1.103.0"
+
+default_platform :ios
+
+platform :ios do
+  before_all do
+    ensure_xcode_version(version: "8.2.1")
+  end
+
+  desc "run tests"
+  lane :test do |options|
+
+    cocoapods(
+      podfile: "Example/"
+    )
+
+    scan(
+      workspace: "Example/PlayerKit.xcworkspace",
+      scheme: "PlayerKit-Example",
+      configuration: "Debug",
+      buildlog_path: ".",
+      derived_data_path: "build/",
+      formatter: 'xcpretty-json-formatter'
+    )
+
+    pretty_junit(file_pattern: "fastlane/test_output/report.junit")
+
+    if is_ci?
+      danger(use_bundle_exec: false)
+    end
+  end
+
+  after_all do |lane|
+
+  end
+
+  error do |lane, exception|
+
+  end
+end
+
+
+# More information about multiple platforms in fastlane: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Platforms.md
+# All available actions: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Actions.md
+
+# fastlane reports which actions are used
+# No personal data is recorded. Learn more at https://github.com/fastlane/enhancer
