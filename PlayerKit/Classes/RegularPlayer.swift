@@ -125,7 +125,6 @@ open class RegularPlayer: NSObject, Player, ProvidesView
     {
         let cmTime = CMTimeMakeWithSeconds(time, Int32(NSEC_PER_SEC))
         
-//        self.player.seek(to: cmTime, toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
         self.player.seek(to: cmTime)
         
         self.time = time
