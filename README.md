@@ -13,17 +13,17 @@ Vimeo supports various types of video and playback (360 video, Chromecast, etc.)
 
 ### Goals
 
-- Provide an interface defining a common API and delegate callback strategy that different types of players can implement
+- Provide an interface defining a common API and delegate callback strategy for different types of players to implement
 - Allow players to define their capabilities using protocol conformance
 
 ## Example
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+To run the example project, clone the repo, and run `pod install` from the Example directory.
 
 ## Requirements
 
 - iOS 8.0+ / tvOS 9.0+
-- Swift 2.3 (Swift 3 support coming soon)
+- Swift 3.2
 
 ## Installation
 
@@ -52,7 +52,7 @@ player.set(asset: AVURLAsset(URL: "https://example.com/video.mp4"))
 player.play()
 ```
 
-Optionally, an object can conform to PlayerDelegate to recieve updates from the player and perform actions such as UI updates. Check out the example project for an example of this.
+Optionally, an object can conform to PlayerDelegate to receive updates from the player and perform actions such as UI updates. Check out the example project for an example of this.
 
 ```swift
 player.delegate = delegate
@@ -60,7 +60,7 @@ player.delegate = delegate
 
 ### Creating New Types of Players
 
-You can create your own new types of players by creating objects that conform to the Player protocol and call the delgate methods when appropriate.
+You can create your own players by creating objects that conform to the Player protocol and call the delegate methods when appropriate.
 
 ## Author
 
