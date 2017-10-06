@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
   s.name             = 'PlayerKit'
-  s.version          = '0.1.0'
+  s.version          = '1.1.0'
   s.summary          = 'A modular video player system.'
 
   s.description      = <<-DESC
-  PlayerKit is a modular video player system. It provides a common interface for players and various players that implement it.
+  PlayerKit is a modular video player system for iOS and tvOS.
                        DESC
 
   s.homepage         = 'https://github.com/vimeo/PlayerKit'
