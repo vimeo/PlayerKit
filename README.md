@@ -1,6 +1,6 @@
 # PlayerKit
 
-[![CI Status](http://img.shields.io/travis/ghking/PlayerKit.svg?style=flat)](https://travis-ci.org/ghking/PlayerKit)
+[![CI Status](http://img.shields.io/travis/ghking/PlayerKit.svg?style=flat)](https://travis-ci.org/vimeo/PlayerKit)
 [![Version](https://img.shields.io/cocoapods/v/PlayerKit.svg?style=flat)](http://cocoapods.org/pods/PlayerKit)
 [![License](https://img.shields.io/cocoapods/l/PlayerKit.svg?style=flat)](http://cocoapods.org/pods/PlayerKit)
 [![Platform](https://img.shields.io/cocoapods/p/PlayerKit.svg?style=flat)](http://cocoapods.org/pods/PlayerKit)
