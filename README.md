@@ -20,9 +20,9 @@ Vimeo supports various types of video and playback (360 video, Chromecast, etc.)
 
 To run the example project, clone the repo, and run `pod install` from the Example directory.
 
-## Requirements
+## Minimum Requirements
 
-- iOS 8.0+ / tvOS 9.0+
+- iOS 8.0 / tvOS 9.0
 - Swift 3.2
 
 ## Installation
