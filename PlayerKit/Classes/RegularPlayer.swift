@@ -373,15 +373,30 @@ extension RegularPlayer: VolumeCapable
 
 extension RegularPlayer: FillModeCapable
 {
-    public var fillMode: String
+    public var fillMode: FillMode
     {
         get
         {
-            return (self.view.layer as! AVPlayerLayer).videoGravity
+            let gravity = (self.view.layer as! AVPlayerLayer).videoGravity
+            
+            return gravity == .resizeAspect ? .fit : .fill
         }
         set
         {
-            (self.view.layer as! AVPlayerLayer).videoGravity = newValue
+            let gravity: AVLayerVideoGravity
+            
+            switch newValue
+            {
+            case .fit:
+                
+                gravity = .resizeAspect
+                
+            case .fill:
+                
+                gravity = .resizeAspectFill
+            }
+
+            (self.view.layer as! AVPlayerLayer).videoGravity = gravity
         }
     }
 }

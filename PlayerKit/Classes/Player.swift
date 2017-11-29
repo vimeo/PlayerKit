@@ -110,7 +110,13 @@ public enum PlayerError: Int
 /// A player that adopts the ProvidesView protocol is capable of setting the video fill mode.
 @objc public protocol FillModeCapable
 {
-    var fillMode: String { get set }
+    var fillMode: FillMode { get set }
+}
+
+@objc public enum FillMode: Int
+{
+    case fit
+    case fill
 }
 
 #if os(iOS)
