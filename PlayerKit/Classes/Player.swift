@@ -37,9 +37,9 @@ public enum PlayerError: Int
 
 /// Represents the current state of the player
 ///
-/// - Loading: The player is loading or buffering
-/// - Ready: The player is ready for playback
-/// - Failed: The player has failed
+/// - loading: The player is loading or buffering
+/// - ready: The player is ready for playback
+/// - failed: The player has failed
 @objc public enum PlayerState: Int
 {
     case loading
