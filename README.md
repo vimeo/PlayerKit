@@ -1,6 +1,6 @@
 # PlayerKit
 
-[![CI Status](http://img.shields.io/travis/ghking/PlayerKit.svg?style=flat)](https://travis-ci.org/ghking/PlayerKit)
+[![CI Status](http://img.shields.io/travis/ghking/PlayerKit.svg?style=flat)](https://travis-ci.org/vimeo/PlayerKit)
 [![Version](https://img.shields.io/cocoapods/v/PlayerKit.svg?style=flat)](http://cocoapods.org/pods/PlayerKit)
 [![License](https://img.shields.io/cocoapods/l/PlayerKit.svg?style=flat)](http://cocoapods.org/pods/PlayerKit)
 [![Platform](https://img.shields.io/cocoapods/p/PlayerKit.svg?style=flat)](http://cocoapods.org/pods/PlayerKit)
@@ -20,9 +20,9 @@ Vimeo supports various types of video and playback (360 video, Chromecast, etc.)
 
 To run the example project, clone the repo, and run `pod install` from the Example directory.
 
-## Requirements
+## Minimum Requirements
 
-- iOS 8.0+ / tvOS 9.0+
+- iOS 8.0 / tvOS 9.0
 - Swift 3.2
 
 ## Installation

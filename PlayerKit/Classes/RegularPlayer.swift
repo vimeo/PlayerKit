@@ -12,7 +12,7 @@ import AVFoundation
 import AVKit
 
 /// A RegularPlayer is used to play regular videos.
-open class RegularPlayer: NSObject, Player, ProvidesView
+@objc open class RegularPlayer: NSObject, Player, ProvidesView
 {
     public struct Constants
     {
@@ -28,7 +28,7 @@ open class RegularPlayer: NSObject, Player, ProvidesView
     /// Sets an AVAsset on the player.
     ///
     /// - Parameter asset: The AVAsset
-    open func set(_ asset: AVAsset)
+    @objc open func set(_ asset: AVAsset)
     {
         // Prepare the old item for removal
         
@@ -373,15 +373,30 @@ extension RegularPlayer: VolumeCapable
 
 extension RegularPlayer: FillModeCapable
 {
-    public var fillMode: String
+    public var fillMode: FillMode
     {
         get
         {
-            return (self.view.layer as! AVPlayerLayer).videoGravity
+            let gravity = (self.view.layer as! AVPlayerLayer).videoGravity
+            
+            return gravity == .resizeAspect ? .fit : .fill
         }
         set
         {
-            (self.view.layer as! AVPlayerLayer).videoGravity = newValue
+            let gravity: AVLayerVideoGravity
+            
+            switch newValue
+            {
+            case .fit:
+                
+                gravity = .resizeAspect
+                
+            case .fill:
+                
+                gravity = .resizeAspectFill
+            }
+
+            (self.view.layer as! AVPlayerLayer).videoGravity = gravity
         }
     }
 }
