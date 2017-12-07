@@ -37,9 +37,9 @@ public enum PlayerError: Int
 
 /// Represents the current state of the player
 ///
-/// - Loading: The player is loading or buffering
-/// - Ready: The player is ready for playback
-/// - Failed: The player has failed
+/// - loading: The player is loading or buffering
+/// - ready: The player is ready for playback
+/// - failed: The player has failed
 @objc public enum PlayerState: Int
 {
     case loading
@@ -110,7 +110,13 @@ public enum PlayerError: Int
 /// A player that adopts the ProvidesView protocol is capable of setting the video fill mode.
 @objc public protocol FillModeCapable
 {
-    var fillMode: String { get set }
+    var fillMode: FillMode { get set }
+}
+
+@objc public enum FillMode: Int
+{
+    case fit
+    case fill
 }
 
 #if os(iOS)
