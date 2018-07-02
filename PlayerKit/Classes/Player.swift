@@ -119,7 +119,7 @@ public enum PlayerError: Int
     case fill
 }
 
-/// The metadata that should be attached to any type of text track
+/// The metadata that should be attached to any type of text track.
 @objc public protocol TextTrackMetadata
 {
     var displayName: String { get }
