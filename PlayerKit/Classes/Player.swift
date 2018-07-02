@@ -119,6 +119,24 @@ public enum PlayerError: Int
     case fill
 }
 
+/// The metadata that should be attached to any type of text track.
+@objc public protocol TextTrackMetadata
+{
+    var displayName: String { get }
+    var locale: Locale? { get }
+    var describesMusicAndSound: Bool { get }
+    
+    @objc(displayNameWithLocale:) func displayName(with locale: Locale) -> String
+}
+
+/// A player that conforms to the TextTrackCapable protocol is capable of advertising and displaying text tracks.
+@objc public protocol TextTrackCapable
+{
+    func availableTextTracks() -> [TextTrackMetadata]
+    func fetchAvailableTextTracks(completion: @escaping ([TextTrackMetadata]) -> Void)
+    func select(_ textTrack: TextTrackMetadata?)
+}
+
 #if os(iOS)
 /// A player that adopts the ProvidesView protocol is capable of Picture in Picture playback.
 @objc public protocol PictureInPictureCapable
