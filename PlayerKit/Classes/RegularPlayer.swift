@@ -54,61 +54,6 @@ extension AVMediaSelectionOption: TextTrackMetadata
         self.player.replaceCurrentItem(with: playerItem)
     }
     
-    // MARK: TextTrackCapable
-    
-    public typealias TextTrackType = AVMediaSelectionOption
-    
-    public func availableTextTracks() -> [TextTrackMetadata]
-    {
-        guard let group = self.player.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else
-        {
-            return []
-        }
-        return group.options
-    }
-    
-    public func fetchAvailableTextTracks(completion: @escaping ([TextTrackMetadata]) -> Void)
-    {
-        self.player.currentItem?.asset.loadValuesAsynchronously(forKeys: [#keyPath(AVAsset.availableMediaCharacteristicsWithMediaSelectionOptions)]) { [weak self] in
-            guard let strongSelf = self, let group = strongSelf.player.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else
-            {
-                completion([])
-                return
-            }
-            completion(group.options)
-        }
-    }
-    
-    public func select(_ textTrack: TextTrackMetadata?)
-    {
-        guard let group = self.player.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else
-        {
-            return
-        }
-        
-        guard let track = textTrack else
-        {
-            self.player.currentItem?.select(nil, in: group)
-            return
-        }
-        
-        if let option = track as? AVMediaSelectionOption
-        {
-            self.player.currentItem?.select(option, in: group)
-        }
-        else
-        {
-            for option in group.options
-            {
-                if option.locale == track.locale && (option.hasMediaCharacteristic(.describesMusicAndSoundForAccessibility) == track.describesMusicAndSound)
-                {
-                    self.player.currentItem?.select(option, in: group)
-                    break
-                }
-            }
-        }
-    }
-    
     // MARK: ProvidesView
     
     private class RegularPlayerView: UIView
@@ -460,6 +405,60 @@ extension RegularPlayer: FillModeCapable
             }
 
             (self.view.layer as! AVPlayerLayer).videoGravity = gravity
+        }
+    }
+}
+
+extension RegularPlayer: TextTrackCapable
+{
+    public func availableTextTracks() -> [TextTrackMetadata]
+    {
+        guard let group = self.player.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else
+        {
+            return []
+        }
+        return group.options
+    }
+    
+    public func fetchAvailableTextTracks(completion: @escaping ([TextTrackMetadata]) -> Void)
+    {
+        self.player.currentItem?.asset.loadValuesAsynchronously(forKeys: [#keyPath(AVAsset.availableMediaCharacteristicsWithMediaSelectionOptions)]) { [weak self] in
+            guard let strongSelf = self, let group = strongSelf.player.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else
+            {
+                completion([])
+                return
+            }
+            completion(group.options)
+        }
+    }
+    
+    public func select(_ textTrack: TextTrackMetadata?)
+    {
+        guard let group = self.player.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else
+        {
+            return
+        }
+        
+        guard let track = textTrack else
+        {
+            self.player.currentItem?.select(nil, in: group)
+            return
+        }
+        
+        if let option = track as? AVMediaSelectionOption
+        {
+            self.player.currentItem?.select(option, in: group)
+        }
+        else
+        {
+            for option in group.options
+            {
+                if option.locale == track.locale && (option.hasMediaCharacteristic(.describesMusicAndSoundForAccessibility) == track.describesMusicAndSound)
+                {
+                    self.player.currentItem?.select(option, in: group)
+                    break
+                }
+            }
         }
     }
 }
