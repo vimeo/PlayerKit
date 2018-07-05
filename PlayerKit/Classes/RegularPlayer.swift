@@ -451,13 +451,12 @@ extension RegularPlayer: TextTrackCapable
         }
         else
         {
-            for option in group.options
+            let optionPredicate: (AVMediaSelectionOption) -> Bool = { option in
+                return option.locale == track.locale && (option.hasMediaCharacteristic(.describesMusicAndSoundForAccessibility) == track.describesMusicAndSound)
+            }
+            if let option = group.options.first(where: optionPredicate)
             {
-                if option.locale == track.locale && (option.hasMediaCharacteristic(.describesMusicAndSoundForAccessibility) == track.describesMusicAndSound)
-                {
-                    self.player.currentItem?.select(option, in: group)
-                    break
-                }
+                self.player.currentItem?.select(option, in: group)
             }
         }
     }
