@@ -411,6 +411,16 @@ extension RegularPlayer: FillModeCapable
 
 extension RegularPlayer: TextTrackCapable
 {
+    public var selectedTrack: TextTrackMetadata?
+    {
+        guard let group = self.player.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else
+        {
+            return nil
+        }
+        
+        return self.player.currentItem?.selectedMediaOption(in: group)
+    }
+    
     public func availableTextTracks() -> [TextTrackMetadata]
     {
         guard let group = self.player.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else

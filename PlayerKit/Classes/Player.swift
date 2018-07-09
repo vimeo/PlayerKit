@@ -132,6 +132,8 @@ public enum PlayerError: Int
 /// A player that conforms to the TextTrackCapable protocol is capable of advertising and displaying text tracks.
 @objc public protocol TextTrackCapable
 {
+    var selectedTrack: TextTrackMetadata? { get }
+    
     func availableTextTracks() -> [TextTrackMetadata]
     func fetchAvailableTextTracks(completion: @escaping ([TextTrackMetadata]) -> Void)
     func select(_ textTrack: TextTrackMetadata?)
