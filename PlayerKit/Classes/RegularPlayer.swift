@@ -469,16 +469,9 @@ extension RegularPlayer: TextTrackCapable
             return
         }
         
-        var options = group.options
-        if let locale = track.locale
-        {
-            options = AVMediaSelectionGroup.mediaSelectionOptions(from: options, with: locale)
-        }
-        if track.isSDHTrack
-        {
-            options = AVMediaSelectionGroup.mediaSelectionOptions(from: options, withMediaCharacteristics: [AVMediaCharacteristic.describesMusicAndSoundForAccessibility.rawValue, AVMediaCharacteristic.transcribesSpokenDialogForAccessibility.rawValue])
-        }
-        
-        self.player.currentItem?.select(options.first, in: group)
+        let option = group.options.first(where: { option in
+            track.matches(option)
+        })
+        self.player.currentItem?.select(option, in: group)
     }
 }
