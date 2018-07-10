@@ -418,9 +418,12 @@ extension RegularPlayer: TextTrackCapable
             return nil
         }
         
-        if #available(iOS 9.0, *) {
+        if #available(iOS 9.0, *)
+        {
             return self.player.currentItem?.currentMediaSelection.selectedMediaOption(in: group)
-        } else {
+        }
+        else
+        {
             return self.player.currentItem?.selectedMediaOption(in: group)
         }
     }
@@ -442,9 +445,12 @@ extension RegularPlayer: TextTrackCapable
                 completion([], nil)
                 return
             }
-            if #available(iOS 9.0, *) {
+            if #available(iOS 9.0, *)
+            {
                 completion(group.options, strongSelf.player.currentItem?.currentMediaSelection.selectedMediaOption(in: group))
-            } else {
+            }
+            else
+            {
                 completion(group.options, strongSelf.player.currentItem?.selectedMediaOption(in: group))
             }
         }
