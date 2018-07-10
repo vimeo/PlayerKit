@@ -418,7 +418,11 @@ extension RegularPlayer: TextTrackCapable
             return nil
         }
         
-        return self.player.currentItem?.selectedMediaOption(in: group)
+        if #available(iOS 9.0, *) {
+            return self.player.currentItem?.currentMediaSelection.selectedMediaOption(in: group)
+        } else {
+            return self.player.currentItem?.selectedMediaOption(in: group)
+        }
     }
     
     public func availableTextTracks() -> [TextTrackMetadata]
