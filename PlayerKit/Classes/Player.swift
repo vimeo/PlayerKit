@@ -124,7 +124,7 @@ public enum PlayerError: Int
 {
     var displayName: String { get }
     var locale: Locale? { get }
-    var describesMusicAndSound: Bool { get }
+    var isSDHTrack: Bool { get }
     
     @objc(displayNameWithLocale:) func displayName(with locale: Locale) -> String
 }
@@ -132,11 +132,19 @@ public enum PlayerError: Int
 /// A player that conforms to the TextTrackCapable protocol is capable of advertising and displaying text tracks.
 @objc public protocol TextTrackCapable
 {
-    var selectedTrack: TextTrackMetadata? { get }
+    var selectedTextTrack: TextTrackMetadata? { get }
+    var availableTextTracks: [TextTrackMetadata] { get }
     
-    func availableTextTracks() -> [TextTrackMetadata]
-    func fetchAvailableTextTracks(completion: @escaping ([TextTrackMetadata]) -> Void)
+    func fetchTextTracks(completion: @escaping ([TextTrackMetadata], TextTrackMetadata?) -> Void)
     func select(_ textTrack: TextTrackMetadata?)
+}
+
+extension TextTrackMetadata
+{
+    public static func ==(lhs: TextTrackMetadata, rhs: TextTrackMetadata) -> Bool
+    {
+        return (lhs.locale == rhs.locale && lhs.isSDHTrack == rhs.isSDHTrack)
+    }
 }
 
 #if os(iOS)
