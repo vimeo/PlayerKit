@@ -129,6 +129,11 @@ public enum PlayerError: Int
     @objc(displayNameWithLocale:) func displayName(with locale: Locale) -> String
 }
 
+public func ==(lhs: TextTrackMetadata, rhs: TextTrackMetadata) -> Bool
+{
+    return (lhs.locale == rhs.locale && lhs.isSDHTrack == rhs.isSDHTrack)
+}
+
 /// A player that conforms to the TextTrackCapable protocol is capable of advertising and displaying text tracks.
 @objc public protocol TextTrackCapable
 {
@@ -137,14 +142,6 @@ public enum PlayerError: Int
     
     func fetchTextTracks(completion: @escaping ([TextTrackMetadata], TextTrackMetadata?) -> Void)
     func select(_ textTrack: TextTrackMetadata?)
-}
-
-extension TextTrackMetadata
-{
-    public static func ==(lhs: TextTrackMetadata, rhs: TextTrackMetadata) -> Bool
-    {
-        return (lhs.locale == rhs.locale && lhs.isSDHTrack == rhs.isSDHTrack)
-    }
 }
 
 #if os(iOS)
