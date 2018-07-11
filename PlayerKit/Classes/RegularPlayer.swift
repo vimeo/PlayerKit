@@ -13,9 +13,9 @@ import AVKit
 
 extension AVMediaSelectionOption: TextTrackMetadata
 {
-    public var describesMusicAndSound: Bool
+    public var isSDHTrack: Bool
     {
-        return self.hasMediaCharacteristic(.describesMusicAndSoundForAccessibility)
+        return self.hasMediaCharacteristic(.describesMusicAndSoundForAccessibility) && self.hasMediaCharacteristic(.transcribesSpokenDialogForAccessibility)
     }
 }
 
@@ -411,7 +411,24 @@ extension RegularPlayer: FillModeCapable
 
 extension RegularPlayer: TextTrackCapable
 {
-    public func availableTextTracks() -> [TextTrackMetadata]
+    public var selectedTextTrack: TextTrackMetadata?
+    {
+        guard let group = self.player.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else
+        {
+            return nil
+        }
+        
+        if #available(iOS 9.0, *)
+        {
+            return self.player.currentItem?.currentMediaSelection.selectedMediaOption(in: group)
+        }
+        else
+        {
+            return self.player.currentItem?.selectedMediaOption(in: group)
+        }
+    }
+    
+    public var availableTextTracks: [TextTrackMetadata]
     {
         guard let group = self.player.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else
         {
@@ -420,15 +437,22 @@ extension RegularPlayer: TextTrackCapable
         return group.options
     }
     
-    public func fetchAvailableTextTracks(completion: @escaping ([TextTrackMetadata]) -> Void)
+    public func fetchTextTracks(completion: @escaping ([TextTrackMetadata], TextTrackMetadata?) -> Void)
     {
         self.player.currentItem?.asset.loadValuesAsynchronously(forKeys: [#keyPath(AVAsset.availableMediaCharacteristicsWithMediaSelectionOptions)]) { [weak self] in
             guard let strongSelf = self, let group = strongSelf.player.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else
             {
-                completion([])
+                completion([], nil)
                 return
             }
-            completion(group.options)
+            if #available(iOS 9.0, *)
+            {
+                completion(group.options, strongSelf.player.currentItem?.currentMediaSelection.selectedMediaOption(in: group))
+            }
+            else
+            {
+                completion(group.options, strongSelf.player.currentItem?.selectedMediaOption(in: group))
+            }
         }
     }
     
@@ -445,19 +469,9 @@ extension RegularPlayer: TextTrackCapable
             return
         }
         
-        if let option = track as? AVMediaSelectionOption
-        {
-            self.player.currentItem?.select(option, in: group)
-        }
-        else
-        {
-            let optionPredicate: (AVMediaSelectionOption) -> Bool = { option in
-                return option.locale == track.locale && (option.hasMediaCharacteristic(.describesMusicAndSoundForAccessibility) == track.describesMusicAndSound)
-            }
-            if let option = group.options.first(where: optionPredicate)
-            {
-                self.player.currentItem?.select(option, in: group)
-            }
-        }
+        let option = group.options.first(where: { option in
+            track.matches(option)
+        })
+        self.player.currentItem?.select(option, in: group)
     }
 }

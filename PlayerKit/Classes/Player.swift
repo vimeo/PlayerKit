@@ -124,16 +124,27 @@ public enum PlayerError: Int
 {
     var displayName: String { get }
     var locale: Locale? { get }
-    var describesMusicAndSound: Bool { get }
+    // Indicates that the text track represents subtitles for the def and hard of hearing (SDH).
+    var isSDHTrack: Bool { get }
     
     @objc(displayNameWithLocale:) func displayName(with locale: Locale) -> String
+}
+
+extension TextTrackMetadata
+{
+    public func matches(_ other: TextTrackMetadata) -> Bool
+    {
+        return (self.locale == other.locale && self.isSDHTrack == other.isSDHTrack)
+    }
 }
 
 /// A player that conforms to the TextTrackCapable protocol is capable of advertising and displaying text tracks.
 @objc public protocol TextTrackCapable
 {
-    func availableTextTracks() -> [TextTrackMetadata]
-    func fetchAvailableTextTracks(completion: @escaping ([TextTrackMetadata]) -> Void)
+    var selectedTextTrack: TextTrackMetadata? { get }
+    var availableTextTracks: [TextTrackMetadata] { get }
+    
+    func fetchTextTracks(completion: @escaping ([TextTrackMetadata], TextTrackMetadata?) -> Void)
     func select(_ textTrack: TextTrackMetadata?)
 }
 
