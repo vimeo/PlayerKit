@@ -124,6 +124,7 @@ public enum PlayerError: Int
 {
     var displayName: String { get }
     var locale: Locale? { get }
+    // Indicates that the text track represents subtitles for the def and hard of hearing (SDH).
     var isSDHTrack: Bool { get }
     
     @objc(displayNameWithLocale:) func displayName(with locale: Locale) -> String
