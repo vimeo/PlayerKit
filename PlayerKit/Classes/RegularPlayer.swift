@@ -11,6 +11,14 @@ import Foundation
 import AVFoundation
 import AVKit
 
+extension AVMediaSelectionOption: TextTrackMetadata
+{
+    public var isSDHTrack: Bool
+    {
+        return self.hasMediaCharacteristic(.describesMusicAndSoundForAccessibility) && self.hasMediaCharacteristic(.transcribesSpokenDialogForAccessibility)
+    }
+}
+
 /// A RegularPlayer is used to play regular videos.
 @objc open class RegularPlayer: NSObject, Player, ProvidesView
 {
@@ -398,5 +406,72 @@ extension RegularPlayer: FillModeCapable
 
             (self.view.layer as! AVPlayerLayer).videoGravity = gravity
         }
+    }
+}
+
+extension RegularPlayer: TextTrackCapable
+{
+    public var selectedTextTrack: TextTrackMetadata?
+    {
+        guard let group = self.player.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else
+        {
+            return nil
+        }
+        
+        if #available(iOS 9.0, *)
+        {
+            return self.player.currentItem?.currentMediaSelection.selectedMediaOption(in: group)
+        }
+        else
+        {
+            return self.player.currentItem?.selectedMediaOption(in: group)
+        }
+    }
+    
+    public var availableTextTracks: [TextTrackMetadata]
+    {
+        guard let group = self.player.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else
+        {
+            return []
+        }
+        return group.options
+    }
+    
+    public func fetchTextTracks(completion: @escaping ([TextTrackMetadata], TextTrackMetadata?) -> Void)
+    {
+        self.player.currentItem?.asset.loadValuesAsynchronously(forKeys: [#keyPath(AVAsset.availableMediaCharacteristicsWithMediaSelectionOptions)]) { [weak self] in
+            guard let strongSelf = self, let group = strongSelf.player.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else
+            {
+                completion([], nil)
+                return
+            }
+            if #available(iOS 9.0, *)
+            {
+                completion(group.options, strongSelf.player.currentItem?.currentMediaSelection.selectedMediaOption(in: group))
+            }
+            else
+            {
+                completion(group.options, strongSelf.player.currentItem?.selectedMediaOption(in: group))
+            }
+        }
+    }
+    
+    public func select(_ textTrack: TextTrackMetadata?)
+    {
+        guard let group = self.player.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else
+        {
+            return
+        }
+        
+        guard let track = textTrack else
+        {
+            self.player.currentItem?.select(nil, in: group)
+            return
+        }
+        
+        let option = group.options.first(where: { option in
+            track.matches(option)
+        })
+        self.player.currentItem?.select(option, in: group)
     }
 }
