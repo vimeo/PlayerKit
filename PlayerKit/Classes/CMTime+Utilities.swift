@@ -21,3 +21,15 @@ extension CMTime
         return CMTimeGetSeconds(self)
     }
 }
+
+extension TimeInterval
+{
+    func compareHourToSecond(interval: TimeInterval) -> Bool
+    {
+        if interval.seconds == self.seconds, interval.minutes == self.minutes, interval.hours == self.hours
+        {
+            return true
+        }
+        return false
+    }
+}

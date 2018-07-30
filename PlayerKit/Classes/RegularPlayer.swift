@@ -129,13 +129,22 @@ extension AVMediaSelectionOption: TextTrackMetadata
         return self.player.errorForPlayerOrItem
     }
     
+    var refreshFlag: Bool = true
+    
     public func seek(to time: TimeInterval)
     {
+        guard refreshFlag else { return }
+        
+        guard !(time.compareHourToSecond(interval: self.time)) else { return }
+
         let cmTime = CMTimeMakeWithSeconds(time, Int32(NSEC_PER_SEC))
-        
-        self.player.seek(to: cmTime)
-        
-        self.time = time
+ 
+        refreshFlag = false
+        self.player.seek(to: cmTime, completionHandler: { (isFinished:Bool) -> Void in
+            self.time = time
+            
+            self.refreshFlag = true
+        })
     }
     
     public func play()
@@ -159,6 +168,8 @@ extension AVMediaSelectionOption: TextTrackMetadata
         self.regularPlayerView.configureForPlayer(player: self.player)
         
         self.setupAirplay()
+        
+        self.player.automaticallyWaitsToMinimizeStalling = true
     }
     
     deinit
@@ -473,5 +484,23 @@ extension RegularPlayer: TextTrackCapable
             track.matches(option)
         })
         self.player.currentItem?.select(option, in: group)
+    }
+}
+
+extension TimeInterval {
+    var milliseconds: Int {
+        return Int((truncatingRemainder(dividingBy: 1)) * 1000)
+    }
+    
+    var seconds: Int {
+        return Int(self) % 60
+    }
+    
+    var minutes: Int {
+        return (Int(self) / 60 ) % 60
+    }
+    
+    var hours: Int {
+        return Int(self) / 3600
     }
 }
