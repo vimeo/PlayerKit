@@ -129,22 +129,31 @@ extension AVMediaSelectionOption: TextTrackMetadata
         return self.player.errorForPlayerOrItem
     }
     
+    private func getSeekTime(to time: TimeInterval) -> CMTime
+    {
+        return CMTimeMakeWithSeconds(time, Int32(NSEC_PER_SEC))
+    }
+    
     var refreshFlag: Bool = true
     
     public func seek(to time: TimeInterval)
     {
         guard refreshFlag else { return }
         
-        guard !(time.compareHourToSecond(interval: self.time)) else { return }
-
-        let cmTime = CMTimeMakeWithSeconds(time, Int32(NSEC_PER_SEC))
- 
         refreshFlag = false
-        self.player.seek(to: cmTime, completionHandler: { (isFinished:Bool) -> Void in
-            self.time = time
+        self.player.seek(to: getSeekTime(to: time), completionHandler: { [weak self] (isFinished:Bool) -> Void in
             
-            self.refreshFlag = true
+            self?.refreshFlag = true
         })
+        
+        self.time = time
+    }
+    
+    public func forceSeek(to time: TimeInterval)
+    {
+        self.player.seek(to: getSeekTime(to: time))
+        
+        self.time = time
     }
     
     public func play()
@@ -169,7 +178,7 @@ extension AVMediaSelectionOption: TextTrackMetadata
         
         self.setupAirplay()
         
-        self.player.automaticallyWaitsToMinimizeStalling = true
+        self.automaticallyWaitsToMinimizeStalling = true
     }
     
     deinit
@@ -187,6 +196,17 @@ extension AVMediaSelectionOption: TextTrackMetadata
     private func setupAirplay()
     {
         self.player.usesExternalPlaybackWhileExternalScreenIsActive = true
+    }
+    
+    public var automaticallyWaitsToMinimizeStalling: Bool = true
+    {
+        didSet
+        {
+            if #available(iOS 10.0, *)
+            {
+                self.player.automaticallyWaitsToMinimizeStalling = automaticallyWaitsToMinimizeStalling
+            }
+        }
     }
     
     // MARK: Observers
@@ -484,23 +504,5 @@ extension RegularPlayer: TextTrackCapable
             track.matches(option)
         })
         self.player.currentItem?.select(option, in: group)
-    }
-}
-
-extension TimeInterval {
-    var milliseconds: Int {
-        return Int((truncatingRemainder(dividingBy: 1)) * 1000)
-    }
-    
-    var seconds: Int {
-        return Int(self) % 60
-    }
-    
-    var minutes: Int {
-        return (Int(self) / 60 ) % 60
-    }
-    
-    var hours: Int {
-        return Int(self) / 3600
     }
 }
