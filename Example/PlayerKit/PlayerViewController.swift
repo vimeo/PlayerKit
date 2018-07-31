@@ -14,7 +14,7 @@ class PlayerViewController: UIViewController, PlayerDelegate
 {
     private struct Constants
     {
-        static let VideoURL = URL(string: "https://github.com/vimeo/PlayerKit/blob/master/Example/PlayerKit/video.mp4?raw=true")!
+        static let VideoURL = URL(string: "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8")!
     }
     
     @IBOutlet weak var playButton: UIButton!
@@ -51,15 +51,21 @@ class PlayerViewController: UIViewController, PlayerDelegate
         self.player.playing ? self.player.pause() : self.player.play()
     }
     
-    @IBAction func didChangeSliderValue()
-    {
-        let value = Double(self.slider.value)
+    private func getSeekTimeInterval() -> TimeInterval {
         
-        let time = value * self.player.duration
-        
-        self.player.seek(to: time)
+        return Double(self.slider.value) * self.player.duration
     }
     
+    @IBAction func didChangeSliderValue()
+    {
+        self.player.seek(to: getSeekTimeInterval())
+    }
+    
+    @IBAction func didFinishSliderValue()
+    {
+        self.player.forceSeek(to: getSeekTimeInterval())
+    }
+
     // MARK: VideoPlayerDelegate
     
     func playerDidUpdateState(player: Player, previousState: PlayerState)

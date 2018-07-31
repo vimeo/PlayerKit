@@ -129,11 +129,29 @@ extension AVMediaSelectionOption: TextTrackMetadata
         return self.player.errorForPlayerOrItem
     }
     
+    private func getSeekTime(to time: TimeInterval) -> CMTime
+    {
+        return CMTimeMakeWithSeconds(time, Int32(NSEC_PER_SEC))
+    }
+    
+    var refreshFlag: Bool = true
+    
     public func seek(to time: TimeInterval)
     {
-        let cmTime = CMTimeMakeWithSeconds(time, Int32(NSEC_PER_SEC))
+        guard refreshFlag else { return }
         
-        self.player.seek(to: cmTime)
+        refreshFlag = false
+        self.player.seek(to: getSeekTime(to: time), completionHandler: { [weak self] (isFinished:Bool) -> Void in
+            
+            self?.refreshFlag = true
+        })
+        
+        self.time = time
+    }
+    
+    public func forceSeek(to time: TimeInterval)
+    {
+        self.player.seek(to: getSeekTime(to: time))
         
         self.time = time
     }
@@ -159,6 +177,8 @@ extension AVMediaSelectionOption: TextTrackMetadata
         self.regularPlayerView.configureForPlayer(player: self.player)
         
         self.setupAirplay()
+        
+        self.automaticallyWaitsToMinimizeStalling = true
     }
     
     deinit
@@ -176,6 +196,17 @@ extension AVMediaSelectionOption: TextTrackMetadata
     private func setupAirplay()
     {
         self.player.usesExternalPlaybackWhileExternalScreenIsActive = true
+    }
+    
+    public var automaticallyWaitsToMinimizeStalling: Bool = true
+    {
+        didSet
+        {
+            if #available(iOS 10.0, *)
+            {
+                self.player.automaticallyWaitsToMinimizeStalling = automaticallyWaitsToMinimizeStalling
+            }
+        }
     }
     
     // MARK: Observers
