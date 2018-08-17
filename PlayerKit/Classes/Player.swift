@@ -54,6 +54,7 @@ public enum PlayerError: Int
     func playerDidUpdatePlaying(player: Player)
     func playerDidUpdateTime(player: Player)
     func playerDidUpdateBufferedTime(player: Player)
+    func playerDidPlaytoEnd(player: Player)
 }
 
 /// An object that adopts the Player protocol is responsible for implementing the API and calling PlayerDelegate methods where appropriate.
@@ -70,6 +71,8 @@ public enum PlayerError: Int
     var bufferedTime: TimeInterval { get }
     
     var playing: Bool { get }
+    
+    var hasPlayToEnd: Bool { get }
     
     var error: NSError? { get }
     

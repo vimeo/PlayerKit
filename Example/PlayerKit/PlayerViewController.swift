@@ -14,7 +14,7 @@ class PlayerViewController: UIViewController, PlayerDelegate
 {
     private struct Constants
     {
-        static let VideoURL = URL(string: "https://github.com/vimeo/PlayerKit/blob/master/Example/PlayerKit/video.mp4?raw=true")!
+        static let VideoURL = URL(string: "https://develop-file-jello.jkos.com/download/eb4eaec0a47425221489417c92e6d3130b0106000282e18700000000020100ca")!
     }
     
     @IBOutlet weak var playButton: UIButton!
@@ -31,7 +31,7 @@ class PlayerViewController: UIViewController, PlayerDelegate
         player.delegate = self
 
         self.addPlayerToView()
-        
+
         self.player.set(AVURLAsset(url: Constants.VideoURL))
     }
     
@@ -113,4 +113,9 @@ class PlayerViewController: UIViewController, PlayerDelegate
         
         self.label.text = "Buffer: \(ratio)%"
     }
+    
+    func playerDidPlaytoEnd(player: Player) {
+        player.seek(to: 0)
+    }
+    
 }
