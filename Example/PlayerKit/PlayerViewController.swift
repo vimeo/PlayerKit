@@ -113,4 +113,9 @@ class PlayerViewController: UIViewController, PlayerDelegate
         
         self.label.text = "Buffer: \(ratio)%"
     }
+    
+    func playerDidPlaytoEnd(player: Player) {
+        player.seek(to: 0)
+    }
+    
 }

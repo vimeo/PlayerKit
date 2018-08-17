@@ -124,6 +124,8 @@ extension AVMediaSelectionOption: TextTrackMetadata
         return self.player.rate > 0
     }
     
+    public private(set) var hasPlayToEnd: Bool = false
+    
     public var error: NSError?
     {
         return self.player.errorForPlayerOrItem
@@ -133,6 +135,7 @@ extension AVMediaSelectionOption: TextTrackMetadata
     {
         let cmTime = CMTimeMakeWithSeconds(time, Int32(NSEC_PER_SEC))
         
+        hasPlayToEnd = false
         self.player.seek(to: cmTime)
         
         self.time = time
@@ -140,6 +143,7 @@ extension AVMediaSelectionOption: TextTrackMetadata
     
     public func play()
     {
+        hasPlayToEnd = false
         self.player.play()
     }
     
@@ -202,6 +206,9 @@ extension AVMediaSelectionOption: TextTrackMetadata
         playerItem.addObserver(self, forKeyPath: KeyPath.PlayerItem.Status, options: [.initial, .new], context: nil)
         playerItem.addObserver(self, forKeyPath: KeyPath.PlayerItem.PlaybackLikelyToKeepUp, options: [.initial, .new], context: nil)
         playerItem.addObserver(self, forKeyPath: KeyPath.PlayerItem.LoadedTimeRanges, options: [.initial, .new], context: nil)
+        
+        let defaultCenter = NotificationCenter.default
+        defaultCenter.addObserver(self, selector: #selector(playerItemDidPlayToEnd(item:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: playerItem)
     }
     
     private func removePlayerItemObservers(fromPlayerItem playerItem: AVPlayerItem)
@@ -209,6 +216,9 @@ extension AVMediaSelectionOption: TextTrackMetadata
         playerItem.removeObserver(self, forKeyPath: KeyPath.PlayerItem.Status, context: nil)
         playerItem.removeObserver(self, forKeyPath: KeyPath.PlayerItem.PlaybackLikelyToKeepUp, context: nil)
         playerItem.removeObserver(self, forKeyPath: KeyPath.PlayerItem.LoadedTimeRanges, context: nil)
+        
+        let defaultCenter = NotificationCenter.default
+        defaultCenter.removeObserver(self)
     }
     
     private func addPlayerObservers()
@@ -324,6 +334,13 @@ extension AVMediaSelectionOption: TextTrackMetadata
         }
         
         self.bufferedTime = bufferedTime
+    }
+    
+    // MARK: Player did play to end
+    
+    @objc private func playerItemDidPlayToEnd(item: AVPlayerItem) {
+        hasPlayToEnd = true
+        delegate?.playerDidPlaytoEnd(player: self)
     }
     
     // MARK: Capability Protocol Helpers
