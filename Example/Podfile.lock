@@ -1,5 +1,5 @@
 PODS:
-  - PlayerKit (1.2.0)
+  - PlayerKit (1.3.0)
 
 DEPENDENCIES:
   - PlayerKit (from `../`)
@@ -9,8 +9,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  PlayerKit: ff4e4cd4c216d60ebcfccf3a68772d6299373e5a
+  PlayerKit: d0d7f7d0e41e9fc8857ccf00bb23aec9356349e9
 
 PODFILE CHECKSUM: 071d8819500a822237123321021901352f4d91a4
 
-COCOAPODS: 1.5.2
+COCOAPODS: 1.5.3
