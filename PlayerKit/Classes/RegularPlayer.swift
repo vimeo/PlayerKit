@@ -33,6 +33,11 @@ extension AVMediaSelectionOption: TextTrackMetadata
     
     // MARK: Public API
     
+    @objc open func set(url: URL) {
+        let asset = AVURLAsset(url: url)
+        set(asset)
+    }
+    
     /// Sets an AVAsset on the player.
     ///
     /// - Parameter asset: The AVAsset
