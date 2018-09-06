@@ -55,7 +55,7 @@ extension AVMediaSelectionOption: TextTrackMetadata
     }
     
     /// Returns a readonly reference to the underlying AVPlayer
-    public var avPlayer: AVPlayer {
+    @objc public var avPlayer: AVPlayer {
         return player
     }
     
