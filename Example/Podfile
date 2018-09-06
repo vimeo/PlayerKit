@@ -1,6 +1,7 @@
 use_frameworks!
 
 target 'PlayerKit_Example' do
+  platform :ios, '8.0'
   pod 'PlayerKit', :path => '../'
 
   target 'PlayerKit_Tests' do
