@@ -90,6 +90,10 @@ extension AVMediaSelectionOption: TextTrackMetadata
     
     weak public var delegate: PlayerDelegate?
     
+    public var avPlayer: AVPlayer {
+        return player
+    }
+    
     public private(set) var state: PlayerState = .ready
     {
         didSet
