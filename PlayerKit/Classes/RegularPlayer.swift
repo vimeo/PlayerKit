@@ -54,6 +54,11 @@ extension AVMediaSelectionOption: TextTrackMetadata
         self.player.replaceCurrentItem(with: playerItem)
     }
     
+    /// Returns a readonly reference to the underlying AVPlayer
+    public var avPlayer: AVPlayer {
+        return player
+    }
+    
     // MARK: ProvidesView
     
     private class RegularPlayerView: UIView
@@ -89,11 +94,7 @@ extension AVMediaSelectionOption: TextTrackMetadata
     // MARK: Player
     
     weak public var delegate: PlayerDelegate?
-    
-    public var avPlayer: AVPlayer {
-        return player
-    }
-    
+
     public private(set) var state: PlayerState = .ready
     {
         didSet

@@ -61,9 +61,6 @@ public enum PlayerError: Int
 {
     weak var delegate: PlayerDelegate? { get set }
     
-    /// Returns a readonly reference to the underlying AVPlayer
-    var avPlayer: AVPlayer { get }
-    
     var state: PlayerState { get }
     
     var duration: TimeInterval { get }
