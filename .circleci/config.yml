@@ -26,7 +26,7 @@ jobs:
 
       - run: 
           name: Build and run tests
-          command: bundle exec fastlane scan
+          command: bundle exec fastlane ios test
           environment:
             SCAN_DEVICE: iPhone 8
             SCAN_SCHEME: PlayerKit-Example
