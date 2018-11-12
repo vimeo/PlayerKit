@@ -62,9 +62,9 @@ player.delegate = delegate
 
 You can create your own players by creating objects that conform to the Player protocol and call the delegate methods when appropriate.
 
-## Author
+## Questions?
 
-Gavin King, gavin@vimeo.com
+Post on [Stackoverflow](http://stackoverflow.com/questions/tagged/vimeo-ios) with the tag `vimeo-ios`.  Get in touch [here](https://vimeo.com/help/contact).  Interested in working at Vimeo? We're [hiring](https://vimeo.com/jobs)!
 
 ## License
 
