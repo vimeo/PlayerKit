@@ -10,10 +10,8 @@ import UIKit
 import PlayerKit
 import AVFoundation
 
-class PlayerViewController: UIViewController, PlayerDelegate
-{
-    private struct Constants
-    {
+class PlayerViewController: UIViewController, PlayerDelegate {
+    private struct Constants {
         static let VideoURL = URL(string: "https://github.com/vimeo/PlayerKit/blob/master/Example/PlayerKit/video.mp4?raw=true")!
     }
     
@@ -24,8 +22,7 @@ class PlayerViewController: UIViewController, PlayerDelegate
     
     private let player = RegularPlayer()
     
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         player.delegate = self
@@ -37,8 +34,7 @@ class PlayerViewController: UIViewController, PlayerDelegate
     
     // MARK: Setup
     
-    private func addPlayerToView()
-    {
+    private func addPlayerToView() {
         player.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         player.view.frame = self.view.bounds
         self.view.insertSubview(player.view, at: 0)
@@ -46,13 +42,11 @@ class PlayerViewController: UIViewController, PlayerDelegate
     
     // MARK: Actions
     
-    @IBAction func didTapPlayButton()
-    {
+    @IBAction func didTapPlayButton() {
         self.player.playing ? self.player.pause() : self.player.play()
     }
     
-    @IBAction func didChangeSliderValue()
-    {
+    @IBAction func didChangeSliderValue() {
         let value = Double(self.slider.value)
         
         let time = value * self.player.duration
@@ -62,12 +56,10 @@ class PlayerViewController: UIViewController, PlayerDelegate
     
     // MARK: VideoPlayerDelegate
     
-    func playerDidUpdateState(player: Player, previousState: PlayerState)
-    {
+    func playerDidUpdateState(player: Player, previousState: PlayerState) {
         self.activityIndicator.isHidden = true
         
-        switch player.state
-        {
+        switch player.state {
         case .loading:
             
             self.activityIndicator.isHidden = false
@@ -82,30 +74,24 @@ class PlayerViewController: UIViewController, PlayerDelegate
         }
     }
     
-    func playerDidUpdatePlaying(player: Player)
-    {
+    func playerDidUpdatePlaying(player: Player) {
         self.playButton.isSelected = player.playing
     }
     
-    func playerDidUpdateTime(player: Player)
-    {
-        guard player.duration > 0 else
-        {
+    func playerDidUpdateTime(player: Player) {
+        guard player.duration > 0 else {
             return
         }
         
         let ratio = player.time / player.duration
         
-        if self.slider.isHighlighted == false
-        {
+        if self.slider.isHighlighted == false {
             self.slider.value = Float(ratio)
         }
     }
     
-    func playerDidUpdateBufferedTime(player: Player)
-    {
-        guard player.duration > 0 else
-        {
+    func playerDidUpdateBufferedTime(player: Player) {
+        guard player.duration > 0 else {
             return
         }
         
