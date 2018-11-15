@@ -9,30 +9,24 @@
 import Foundation
 import AVFoundation
 
-extension AVPlayer
-{
-    var errorForPlayerOrItem: NSError?
-    {
+extension AVPlayer {
+    var errorForPlayerOrItem: NSError? {
         // First try to return the current item's error
         
-        if let error = self.currentItem?.error
-        {
+        if let error = self.currentItem?.error {
             // If current item's error has an underlying error, return that
             
-            if let underlyingError = (error as NSError).userInfo[NSUnderlyingErrorKey] as? NSError
-            {
+            if let underlyingError = (error as NSError).userInfo[NSUnderlyingErrorKey] as? NSError {
                 return underlyingError
             }
-            else
-            {
+            else {
                 return error as NSError?
             }
         }
         
         // Otherwise, try to return the player error
         
-        if let error = self.error
-        {
+        if let error = self.error {
             return error as NSError?
         }
         
