@@ -6,7 +6,7 @@ jobs:
       BUNDLE_PATH: vendor/bundle
       FL_OUTPUT_DIR: output
     macos:
-      xcode: "10.0.0"
+      xcode: "10.1.0"
     working_directory: ~/PlayerKit
     shell: /bin/bash --login -o pipefail
     
