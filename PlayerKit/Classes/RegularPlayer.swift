@@ -131,7 +131,7 @@ extension AVMediaSelectionOption: TextTrackMetadata
     
     public func seek(to time: TimeInterval)
     {
-        let cmTime = CMTimeMakeWithSeconds(time, Int32(NSEC_PER_SEC))
+        let cmTime = CMTimeMakeWithSeconds(time, preferredTimescale: Int32(NSEC_PER_SEC))
         
         self.player.seek(to: cmTime)
         
@@ -215,7 +215,7 @@ extension AVMediaSelectionOption: TextTrackMetadata
     {
         self.player.addObserver(self, forKeyPath: KeyPath.Player.Rate, options: [.initial, .new], context: nil)
         
-        let interval = CMTimeMakeWithSeconds(Constants.TimeUpdateInterval, Int32(NSEC_PER_SEC))
+        let interval = CMTimeMakeWithSeconds(Constants.TimeUpdateInterval, preferredTimescale: Int32(NSEC_PER_SEC))
         
         self.playerTimeObserver = self.player.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { [weak self] (cmTime) in
             
@@ -246,7 +246,7 @@ extension AVMediaSelectionOption: TextTrackMetadata
         
         if keyPath == KeyPath.PlayerItem.Status
         {
-            if let statusInt = change?[.newKey] as? Int, let status = AVPlayerItemStatus(rawValue: statusInt)
+            if let statusInt = change?[.newKey] as? Int, let status = AVPlayerItem.Status(rawValue: statusInt)
             {
                 self.playerItemStatusDidChange(status: status)
             }
@@ -286,7 +286,7 @@ extension AVMediaSelectionOption: TextTrackMetadata
     
     // MARK: Observation Helpers
     
-    private func playerItemStatusDidChange(status: AVPlayerItemStatus)
+    private func playerItemStatusDidChange(status: AVPlayerItem.Status)
     {
         switch status
         {
