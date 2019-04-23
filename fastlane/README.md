@@ -35,6 +35,11 @@ xcode-select --install
 fastlane ios test
 ```
 Run tests
+### ios version_bump
+```
+fastlane ios version_bump
+```
+bumps the project and podspec version
 
 ----
 
