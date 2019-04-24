@@ -23,7 +23,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 ## Minimum Requirements
 
 - iOS 8.0 / tvOS 9.0
-- Swift 3.2
+- Swift 4.2
 
 ## Installation
 
