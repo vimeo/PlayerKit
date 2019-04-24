@@ -1,0 +1,50 @@
+version: 2
+
+jobs:
+  build-and-test:
+    environment:
+      BUNDLE_PATH: vendor/bundle
+      FL_OUTPUT_DIR: output
+    macos:
+      xcode: "10.1.0"
+    working_directory: ~/PlayerKit
+    shell: /bin/bash --login -o pipefail
+    
+    steps:
+      - checkout
+      
+      - restore_cache:
+          key: v1-gems-{{ checksum "Gemfile.lock" }}
+
+      - run: 
+          name: Set Ruby version
+          command: echo "ruby-2.4" > ~/.ruby-version
+
+      - run: 
+          name: Install bundler dependencies
+          command: bundle install --path vendor/bundle
+
+      - run: 
+          name: Build and run tests
+          command: bundle exec fastlane ios test
+          environment:
+            SCAN_DEVICE: iPhone 8
+            SCAN_SCHEME: PlayerKit-Example
+
+      - save_cache:
+          paths:
+            - vendor/bundle
+          key: v1-gems-{{ checksum "Gemfile.lock" }}
+
+      - store_artifacts:
+          path: output
+
+      - store_test_results:
+          path: output/scan
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build-and-test
+      

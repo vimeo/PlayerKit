@@ -1,16 +1,23 @@
 PODS:
-  - PlayerKit (1.2.0)
+  - PlayerKit (1.3.0)
+  - SwiftLint (0.28.0)
 
 DEPENDENCIES:
   - PlayerKit (from `../`)
+  - SwiftLint (= 0.28.0)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - SwiftLint
 
 EXTERNAL SOURCES:
   PlayerKit:
     :path: "../"
 
 SPEC CHECKSUMS:
-  PlayerKit: ff4e4cd4c216d60ebcfccf3a68772d6299373e5a
+  PlayerKit: d0d7f7d0e41e9fc8857ccf00bb23aec9356349e9
+  SwiftLint: 088cfacb75b45970017e62b7524d506776d60148
 
-PODFILE CHECKSUM: 071d8819500a822237123321021901352f4d91a4
+PODFILE CHECKSUM: 90f31c00641fb4d5e9453ba687a3a06a32cca83f
 
 COCOAPODS: 1.5.2
