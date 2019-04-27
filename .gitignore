@@ -41,7 +41,7 @@ playground.xcworkspace
 .build/
 
 # CocoaPods
-Pods
+# Pods
 
 # Carthage
 #
