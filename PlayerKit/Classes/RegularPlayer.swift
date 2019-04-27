@@ -11,19 +11,15 @@ import Foundation
 import AVFoundation
 import AVKit
 
-extension AVMediaSelectionOption: TextTrackMetadata
-{
-    public var isSDHTrack: Bool
-    {
+extension AVMediaSelectionOption: TextTrackMetadata {
+    public var isSDHTrack: Bool {
         return self.hasMediaCharacteristic(.describesMusicAndSoundForAccessibility) && self.hasMediaCharacteristic(.transcribesSpokenDialogForAccessibility)
     }
 }
 
 /// A RegularPlayer is used to play regular videos.
-@objc open class RegularPlayer: NSObject, Player, ProvidesView
-{
-    public struct Constants
-    {
+@objc open class RegularPlayer: NSObject, Player, ProvidesView {
+    public struct Constants {
         public static let TimeUpdateInterval: TimeInterval = 0.1
     }
     
@@ -36,12 +32,10 @@ extension AVMediaSelectionOption: TextTrackMetadata
     /// Sets an AVAsset on the player.
     ///
     /// - Parameter asset: The AVAsset
-    @objc open func set(_ asset: AVAsset)
-    {
+    @objc open func set(_ asset: AVAsset) {
         // Prepare the old item for removal
         
-        if let currentItem = self.player.currentItem
-        {
+        if let currentItem = self.player.currentItem {
             self.removePlayerItemObservers(fromPlayerItem: currentItem)
         }
         
@@ -56,33 +50,27 @@ extension AVMediaSelectionOption: TextTrackMetadata
     
     // MARK: ProvidesView
     
-    private class RegularPlayerView: UIView
-    {
-        var playerLayer: AVPlayerLayer
-        {
+    private class RegularPlayerView: UIView {
+        var playerLayer: AVPlayerLayer {
             return self.layer as! AVPlayerLayer
         }
         
-        override class var layerClass: AnyClass
-        {
+        override class var layerClass: AnyClass {
             return AVPlayerLayer.self
         }
         
-        func configureForPlayer(player: AVPlayer)
-        {
+        func configureForPlayer(player: AVPlayer) {
             (self.layer as! AVPlayerLayer).player = player
         }
     }
     
     public let view: UIView = RegularPlayerView(frame: .zero)
     
-    private var regularPlayerView: RegularPlayerView
-    {
+    private var regularPlayerView: RegularPlayerView {
         return self.view as! RegularPlayerView
     }
     
-    private var playerLayer: AVPlayerLayer
-    {
+    private var playerLayer: AVPlayerLayer {
         return self.regularPlayerView.playerLayer
     }
     
@@ -90,68 +78,55 @@ extension AVMediaSelectionOption: TextTrackMetadata
     
     weak public var delegate: PlayerDelegate?
     
-    public private(set) var state: PlayerState = .ready
-    {
-        didSet
-        {
+    public private(set) var state: PlayerState = .ready {
+        didSet {
             self.delegate?.playerDidUpdateState(player: self, previousState: oldValue)
         }
     }
     
-    public var duration: TimeInterval
-    {
+    public var duration: TimeInterval {
         return self.player.currentItem?.duration.timeInterval ?? 0
     }
     
-    public private(set) var time: TimeInterval = 0
-    {
-        didSet
-        {
+    public private(set) var time: TimeInterval = 0 {
+        didSet {
             self.delegate?.playerDidUpdateTime(player: self)
         }
     }
     
-    public private(set) var bufferedTime: TimeInterval = 0
-    {
-        didSet
-        {
+    public private(set) var bufferedTime: TimeInterval = 0 {
+        didSet {
             self.delegate?.playerDidUpdateBufferedTime(player: self)
         }
     }
     
-    public var playing: Bool
-    {
+    public var playing: Bool {
         return self.player.rate > 0
     }
     
-    public var error: NSError?
-    {
+    public var error: NSError? {
         return self.player.errorForPlayerOrItem
     }
     
-    public func seek(to time: TimeInterval)
-    {
-        let cmTime = CMTimeMakeWithSeconds(time, Int32(NSEC_PER_SEC))
+    public func seek(to time: TimeInterval) {
+        let cmTime = CMTimeMakeWithSeconds(time, preferredTimescale: Int32(NSEC_PER_SEC))
         
         self.player.seek(to: cmTime)
         
         self.time = time
     }
     
-    public func play()
-    {
+    public func play() {
         self.player.play()
     }
     
-    public func pause()
-    {
+    public func pause() {
         self.player.pause()
     }
     
     // MARK: Lifecycle
     
-    public override init()
-    {
+    public override init() {
         super.init()
         
         self.addPlayerObservers()
@@ -161,10 +136,8 @@ extension AVMediaSelectionOption: TextTrackMetadata
         self.setupAirplay()
     }
     
-    deinit
-    {
-        if let playerItem = self.player.currentItem
-        {
+    deinit {
+        if let playerItem = self.player.currentItem {
             self.removePlayerItemObservers(fromPlayerItem: playerItem)
         }
         
@@ -172,23 +145,29 @@ extension AVMediaSelectionOption: TextTrackMetadata
     }
     
     // MARK: Setup
+
+    @available(iOS 10.0, *)
+    public var automaticallyWaitsToMinimizeStalling: Bool {
+        get {
+            return self.player.automaticallyWaitsToMinimizeStalling
+        }
+        set {
+            self.player.automaticallyWaitsToMinimizeStalling = newValue
+        }
+    }
     
-    private func setupAirplay()
-    {
+    private func setupAirplay() {
         self.player.usesExternalPlaybackWhileExternalScreenIsActive = true
     }
     
     // MARK: Observers
     
-    private struct KeyPath
-    {
-        struct Player
-        {
+    private struct KeyPath {
+        struct Player {
             static let Rate = "rate"
         }
         
-        struct PlayerItem
-        {
+        struct PlayerItem {
             static let Status = "status"
             static let PlaybackLikelyToKeepUp = "playbackLikelyToKeepUp"
             static let LoadedTimeRanges = "loadedTimeRanges"
@@ -197,41 +176,35 @@ extension AVMediaSelectionOption: TextTrackMetadata
     
     private var playerTimeObserver: Any?
     
-    private func addPlayerItemObservers(toPlayerItem playerItem: AVPlayerItem)
-    {
+    private func addPlayerItemObservers(toPlayerItem playerItem: AVPlayerItem) {
         playerItem.addObserver(self, forKeyPath: KeyPath.PlayerItem.Status, options: [.initial, .new], context: nil)
         playerItem.addObserver(self, forKeyPath: KeyPath.PlayerItem.PlaybackLikelyToKeepUp, options: [.initial, .new], context: nil)
         playerItem.addObserver(self, forKeyPath: KeyPath.PlayerItem.LoadedTimeRanges, options: [.initial, .new], context: nil)
     }
     
-    private func removePlayerItemObservers(fromPlayerItem playerItem: AVPlayerItem)
-    {
+    private func removePlayerItemObservers(fromPlayerItem playerItem: AVPlayerItem) {
         playerItem.removeObserver(self, forKeyPath: KeyPath.PlayerItem.Status, context: nil)
         playerItem.removeObserver(self, forKeyPath: KeyPath.PlayerItem.PlaybackLikelyToKeepUp, context: nil)
         playerItem.removeObserver(self, forKeyPath: KeyPath.PlayerItem.LoadedTimeRanges, context: nil)
     }
     
-    private func addPlayerObservers()
-    {
+    private func addPlayerObservers() {
         self.player.addObserver(self, forKeyPath: KeyPath.Player.Rate, options: [.initial, .new], context: nil)
         
-        let interval = CMTimeMakeWithSeconds(Constants.TimeUpdateInterval, Int32(NSEC_PER_SEC))
+        let interval = CMTimeMakeWithSeconds(Constants.TimeUpdateInterval, preferredTimescale: Int32(NSEC_PER_SEC))
         
         self.playerTimeObserver = self.player.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { [weak self] (cmTime) in
             
-            if let strongSelf = self, let time = cmTime.timeInterval
-            {
+            if let strongSelf = self, let time = cmTime.timeInterval {
                 strongSelf.time = time
             }
         })
     }
     
-    private func removePlayerObservers()
-    {
+    private func removePlayerObservers() {
         self.player.removeObserver(self, forKeyPath: KeyPath.Player.Rate, context: nil)
         
-        if let playerTimeObserver = self.playerTimeObserver
-        {
+        if let playerTimeObserver = self.playerTimeObserver {
             self.player.removeTimeObserver(playerTimeObserver)
             
             self.playerTimeObserver = nil
@@ -240,56 +213,44 @@ extension AVMediaSelectionOption: TextTrackMetadata
     
     // MARK: Observation
     
-    override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?)
-    {
+    override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         // Player Item Observers
         
-        if keyPath == KeyPath.PlayerItem.Status
-        {
-            if let statusInt = change?[.newKey] as? Int, let status = AVPlayerItemStatus(rawValue: statusInt)
-            {
+        if keyPath == KeyPath.PlayerItem.Status {
+            if let statusInt = change?[.newKey] as? Int, let status = AVPlayerItem.Status(rawValue: statusInt) {
                 self.playerItemStatusDidChange(status: status)
             }
         }
-        else if keyPath == KeyPath.PlayerItem.PlaybackLikelyToKeepUp
-        {
-            if let playbackLikelyToKeepUp = change?[.newKey] as? Bool
-            {
+        else if keyPath == KeyPath.PlayerItem.PlaybackLikelyToKeepUp {
+            if let playbackLikelyToKeepUp = change?[.newKey] as? Bool {
                 self.playerItemPlaybackLikelyToKeepUpDidChange(playbackLikelyToKeepUp: playbackLikelyToKeepUp)
             }
         }
-        else if keyPath == KeyPath.PlayerItem.LoadedTimeRanges
-        {
-            if let loadedTimeRanges = change?[.newKey] as? [NSValue]
-            {
+        else if keyPath == KeyPath.PlayerItem.LoadedTimeRanges {
+            if let loadedTimeRanges = change?[.newKey] as? [NSValue] {
                 self.playerItemLoadedTimeRangesDidChange(loadedTimeRanges: loadedTimeRanges)
             }
         }
             
         // Player Observers
             
-        else if keyPath == KeyPath.Player.Rate
-        {
-            if let rate = change?[.newKey] as? Float
-            {
+        else if keyPath == KeyPath.Player.Rate {
+            if let rate = change?[.newKey] as? Float {
                 self.playerRateDidChange(rate: rate)
             }
         }
             
         // Fall Through Observers
             
-        else
-        {
+        else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
     
     // MARK: Observation Helpers
     
-    private func playerItemStatusDidChange(status: AVPlayerItemStatus)
-    {
-        switch status
-        {
+    private func playerItemStatusDidChange(status: AVPlayerItem.Status) {
+        switch status {
         case .unknown:
             
             self.state = .loading
@@ -304,22 +265,18 @@ extension AVMediaSelectionOption: TextTrackMetadata
         }
     }
     
-    private func playerRateDidChange(rate: Float)
-    {
+    private func playerRateDidChange(rate: Float) {
         self.delegate?.playerDidUpdatePlaying(player: self)
     }
     
-    private func playerItemPlaybackLikelyToKeepUpDidChange(playbackLikelyToKeepUp: Bool)
-    {
+    private func playerItemPlaybackLikelyToKeepUpDidChange(playbackLikelyToKeepUp: Bool) {
         let state: PlayerState = playbackLikelyToKeepUp ? .ready : .loading
         
         self.state = state
     }
     
-    private func playerItemLoadedTimeRangesDidChange(loadedTimeRanges: [NSValue])
-    {
-        guard let bufferedCMTime = loadedTimeRanges.first?.timeRangeValue.end, let bufferedTime = bufferedCMTime.timeInterval else
-        {
+    private func playerItemLoadedTimeRangesDidChange(loadedTimeRanges: [NSValue]) {
+        guard let bufferedCMTime = loadedTimeRanges.first?.timeRangeValue.end, let bufferedTime = bufferedCMTime.timeInterval else {
             return
         }
         
@@ -340,25 +297,20 @@ extension AVMediaSelectionOption: TextTrackMetadata
 
 extension RegularPlayer: AirPlayCapable
 {
-    public var isAirPlayEnabled: Bool
-    {
-        get
-        {
+    public var isAirPlayEnabled: Bool {
+        get {
             return self.player.allowsExternalPlayback
         }
-        set
-        {
+        set {
             return self.player.allowsExternalPlayback = newValue
         }
     }
 }
 
 #if os(iOS)
-extension RegularPlayer: PictureInPictureCapable
-{
+extension RegularPlayer: PictureInPictureCapable {
     @available(iOS 9.0, *)
-    public var pictureInPictureController: AVPictureInPictureController?
-    {
+    public var pictureInPictureController: AVPictureInPictureController? {
         return self._pictureInPictureController
     }
 }
@@ -366,35 +318,27 @@ extension RegularPlayer: PictureInPictureCapable
 
 extension RegularPlayer: VolumeCapable
 {
-    public var volume: Float
-    {
-        get
-        {
+    public var volume: Float {
+        get {
             return self.player.volume
         }
-        set
-        {
+        set {
             self.player.volume = newValue
         }
     }
 }
 
-extension RegularPlayer: FillModeCapable
-{
-    public var fillMode: FillMode
-    {
-        get
-        {
+extension RegularPlayer: FillModeCapable {
+    public var fillMode: FillMode {
+        get {
             let gravity = (self.view.layer as! AVPlayerLayer).videoGravity
             
             return gravity == .resizeAspect ? .fit : .fill
         }
-        set
-        {
+        set {
             let gravity: AVLayerVideoGravity
             
-            switch newValue
-            {
+            switch newValue {
             case .fit:
                 
                 gravity = .resizeAspect
@@ -409,62 +353,48 @@ extension RegularPlayer: FillModeCapable
     }
 }
 
-extension RegularPlayer: TextTrackCapable
-{
-    public var selectedTextTrack: TextTrackMetadata?
-    {
-        guard let group = self.player.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else
-        {
+extension RegularPlayer: TextTrackCapable {
+    public var selectedTextTrack: TextTrackMetadata? {
+        guard let group = self.player.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else {
             return nil
         }
         
-        if #available(iOS 9.0, *)
-        {
+        if #available(iOS 9.0, *) {
             return self.player.currentItem?.currentMediaSelection.selectedMediaOption(in: group)
         }
-        else
-        {
+        else {
             return self.player.currentItem?.selectedMediaOption(in: group)
         }
     }
     
-    public var availableTextTracks: [TextTrackMetadata]
-    {
-        guard let group = self.player.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else
-        {
+    public var availableTextTracks: [TextTrackMetadata] {
+        guard let group = self.player.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else {
             return []
         }
         return group.options
     }
     
-    public func fetchTextTracks(completion: @escaping ([TextTrackMetadata], TextTrackMetadata?) -> Void)
-    {
+    public func fetchTextTracks(completion: @escaping ([TextTrackMetadata], TextTrackMetadata?) -> Void) {
         self.player.currentItem?.asset.loadValuesAsynchronously(forKeys: [#keyPath(AVAsset.availableMediaCharacteristicsWithMediaSelectionOptions)]) { [weak self] in
-            guard let strongSelf = self, let group = strongSelf.player.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else
-            {
+            guard let strongSelf = self, let group = strongSelf.player.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else {
                 completion([], nil)
                 return
             }
-            if #available(iOS 9.0, *)
-            {
+            if #available(iOS 9.0, *) {
                 completion(group.options, strongSelf.player.currentItem?.currentMediaSelection.selectedMediaOption(in: group))
             }
-            else
-            {
+            else {
                 completion(group.options, strongSelf.player.currentItem?.selectedMediaOption(in: group))
             }
         }
     }
     
-    public func select(_ textTrack: TextTrackMetadata?)
-    {
-        guard let group = self.player.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else
-        {
+    public func select(_ textTrack: TextTrackMetadata?) {
+        guard let group = self.player.currentItem?.asset.mediaSelectionGroup(forMediaCharacteristic: .legible) else {
             return
         }
         
-        guard let track = textTrack else
-        {
+        guard let track = textTrack else {
             self.player.currentItem?.select(nil, in: group)
             return
         }

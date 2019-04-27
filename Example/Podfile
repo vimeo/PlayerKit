@@ -4,6 +4,7 @@ platform :ios, '8.0'
 
 target 'PlayerKit_Example' do
 	pod 'PlayerKit', :path => '../'
+    pod 'SwiftLint', '0.28.0'
 	
 	target 'PlayerKit_Tests' do
 		inherit! :search_paths
