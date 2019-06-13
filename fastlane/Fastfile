@@ -17,7 +17,7 @@ default_platform :ios
 
 platform :ios do
   before_all do
-    ensure_xcode_version(version: "10.1")
+    ensure_xcode_version(version: "10.2.1")
   end
 
   desc "Run tests"

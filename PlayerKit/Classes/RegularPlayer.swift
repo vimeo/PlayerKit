@@ -145,6 +145,16 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     }
     
     // MARK: Setup
+
+    @available(iOS 10.0, *)
+    public var automaticallyWaitsToMinimizeStalling: Bool {
+        get {
+            return self.player.automaticallyWaitsToMinimizeStalling
+        }
+        set {
+            self.player.automaticallyWaitsToMinimizeStalling = newValue
+        }
+    }
     
     private func setupAirplay() {
         self.player.usesExternalPlaybackWhileExternalScreenIsActive = true
