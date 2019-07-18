@@ -33,18 +33,18 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     ///
     /// - Parameter asset: The AVAsset
     @objc open func set(_ asset: AVAsset) {
+        let playerItem = AVPlayerItem(asset: asset)
+        self.set(playerItem: playerItem)
+    }
+
+    @objc open func set(playerItem: AVPlayerItem) {
         // Prepare the old item for removal
-        
         if let currentItem = self.player.currentItem {
             self.removePlayerItemObservers(fromPlayerItem: currentItem)
         }
-        
+
         // Replace it with the new item
-        
-        let playerItem = AVPlayerItem(asset: asset)
-        
         self.addPlayerItemObservers(toPlayerItem: playerItem)
-        
         self.player.replaceCurrentItem(with: playerItem)
     }
     
