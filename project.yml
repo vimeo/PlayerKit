@@ -1,0 +1,21 @@
+name: VimeoPlayerKit
+targets:
+  PlayerKit:
+    type: framework
+    platform: iOS
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.vimeo.playerkit
+      INFOPLIST_FILE: Example/PlayerKit/Info.plist
+    sources:
+      - path: PlayerKit
+    scheme:
+      testTargets:
+        - PlayerKitTests
+  
+  PlayerKitTests:
+    dependencies:
+      - target: PlayerKit
+    type: bundle.unit-test
+    platform: iOS
+    sources: 
+      - path: Example/Tests
