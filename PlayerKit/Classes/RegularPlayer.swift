@@ -262,6 +262,10 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         case .failed:
             
             self.state = .failed
+        
+        @unknown default:
+            
+            self.state = .failed
         }
     }
     
