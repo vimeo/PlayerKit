@@ -15,22 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-               BuildableName = "PlayerKit_Example.app"
-               BlueprintName = "PlayerKit_Example"
-               ReferencedContainer = "container:PlayerKit.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "PlayerKit_Tests.xctest"
-               BlueprintName = "PlayerKit_Tests"
+               BuildableName = "Example.app"
+               BlueprintName = "Example"
                ReferencedContainer = "container:PlayerKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,8 +33,18 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "PlayerKit_Tests.xctest"
-               BlueprintName = "PlayerKit_Tests"
+               BuildableName = "PlayerKit-Tests.xctest"
+               BlueprintName = "PlayerKit-Tests"
+               ReferencedContainer = "container:PlayerKit.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8751E69322F4B7CE000610A0"
+               BuildableName = "PlayerKit-iOSTests.xctest"
+               BlueprintName = "PlayerKit-iOSTests"
                ReferencedContainer = "container:PlayerKit.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -57,8 +53,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "PlayerKit_Example.app"
-            BlueprintName = "PlayerKit_Example"
+            BuildableName = "Example.app"
+            BlueprintName = "Example"
             ReferencedContainer = "container:PlayerKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -80,8 +76,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "PlayerKit_Example.app"
-            BlueprintName = "PlayerKit_Example"
+            BuildableName = "Example.app"
+            BlueprintName = "Example"
             ReferencedContainer = "container:PlayerKit.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -99,8 +95,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "PlayerKit_Example.app"
-            BlueprintName = "PlayerKit_Example"
+            BuildableName = "Example.app"
+            BlueprintName = "Example"
             ReferencedContainer = "container:PlayerKit.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
