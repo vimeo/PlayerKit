@@ -24,12 +24,12 @@ platform :ios do
   lane :test do |options|
 
     cocoapods(
-      podfile: "Example/"
+      podfile: "."
     )
 
     scan(
       workspace: "PlayerKit.xcworkspace",
-      scheme: "Example",
+      scheme: "PlayKit-iOS",
       configuration: "Debug",
       buildlog_path: ".",
       derived_data_path: "build/",
