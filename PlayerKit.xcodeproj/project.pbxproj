@@ -20,6 +20,7 @@
 		8751E6AF22F4C70F000610A0 /* CMTime+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8751E67A22F49B83000610A0 /* CMTime+Utilities.swift */; };
 		8751E6B022F4C70F000610A0 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8751E67B22F49B83000610A0 /* Player.swift */; };
 		8751E6B122F4C70F000610A0 /* AVPlayer+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8751E67C22F49B83000610A0 /* AVPlayer+Utilities.swift */; };
+		87570FEB22F8D4FB00D740FD /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		F0FFB37F820BFA1221283BF8 /* Pods_PlayerKit_iOS_PlayerKit_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3423AC93F7CB435E99250B3C /* Pods_PlayerKit_iOS_PlayerKit_iOSTests.framework */; };
 		F5E7784A924FFE1AF46D019B /* Pods_PlayerKit_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0E6AB4D2B9EC44EF46A6D7 /* Pods_PlayerKit_iOS.framework */; };
 /* End PBXBuildFile section */
@@ -501,6 +502,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87570FEB22F8D4FB00D740FD /* Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

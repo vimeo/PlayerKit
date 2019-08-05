@@ -29,7 +29,7 @@ platform :ios do
 
     scan(
       workspace: "PlayerKit.xcworkspace",
-      scheme: "PlayKit-iOS",
+      scheme: "PlayerKit-iOS",
       configuration: "Debug",
       buildlog_path: ".",
       derived_data_path: "build/",
