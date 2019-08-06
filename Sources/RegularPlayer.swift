@@ -6,7 +6,6 @@
 //
 //
 
-import UIKit
 import Foundation
 import AVFoundation
 import AVKit
@@ -54,17 +53,32 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         var playerLayer: AVPlayerLayer {
             return self.layer as! AVPlayerLayer
         }
-        
-        override class var layerClass: AnyClass {
+
+        #if os(iOS) || os(tvOS)
+        override class var layerClass: AnyClass
+        {
             return AVPlayerLayer.self
         }
+        #else
+        override init(frame frameRect: NSRect)
+        {
+            super.init(frame: frameRect)
+
+            self.layer = AVPlayerLayer()
+        }
+
+        required init?(coder decoder: NSCoder)
+        {
+            fatalError("init(coder:) has not been implemented")
+        }
+        #endif
         
         func configureForPlayer(player: AVPlayer) {
             (self.layer as! AVPlayerLayer).player = player
         }
     }
     
-    public let view: UIView = RegularPlayerView(frame: .zero)
+    public let view: PlayerView = RegularPlayerView(frame: .zero)
     
     private var regularPlayerView: RegularPlayerView {
         return self.view as! RegularPlayerView
@@ -102,6 +116,10 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     
     public var playing: Bool {
         return self.player.rate > 0
+    }
+    
+    public var ended: Bool {
+        return self.time >= self.duration
     }
     
     public var error: NSError? {
@@ -156,8 +174,11 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         }
     }
     
-    private func setupAirplay() {
-        self.player.usesExternalPlaybackWhileExternalScreenIsActive = true
+    private func setupAirplay()
+    {
+        #if os(iOS) || os(tvOS)
+            self.player.usesExternalPlaybackWhileExternalScreenIsActive = true
+        #endif
     }
     
     // MARK: Observers

@@ -21,6 +21,7 @@
 		8751E6B022F4C70F000610A0 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8751E67B22F49B83000610A0 /* Player.swift */; };
 		8751E6B122F4C70F000610A0 /* AVPlayer+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8751E67C22F49B83000610A0 /* AVPlayer+Utilities.swift */; };
 		87570FEB22F8D4FB00D740FD /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		87570FED22F9E15500D740FD /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87570FEC22F9E15500D740FD /* PlayerView.swift */; };
 		F0FFB37F820BFA1221283BF8 /* Pods_PlayerKit_iOS_PlayerKit_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3423AC93F7CB435E99250B3C /* Pods_PlayerKit_iOS_PlayerKit_iOSTests.framework */; };
 		F5E7784A924FFE1AF46D019B /* Pods_PlayerKit_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0E6AB4D2B9EC44EF46A6D7 /* Pods_PlayerKit_iOS.framework */; };
 /* End PBXBuildFile section */
@@ -91,6 +92,7 @@
 		8751E68C22F4B7CE000610A0 /* PlayerKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlayerKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8751E69422F4B7CE000610A0 /* PlayerKit-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PlayerKit-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		87570FE922F4E01300D740FD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		87570FEC22F9E15500D740FD /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		8A0E6AB4D2B9EC44EF46A6D7 /* Pods_PlayerKit_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlayerKit_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D69DB7C6B7F626E6391E3FA /* Pods-PlayerKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayerKit_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PlayerKit_Example/Pods-PlayerKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		A5F6E9489936F0976FA4E1B5 /* Pods-PlayerKit-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayerKit-Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PlayerKit-Tests/Pods-PlayerKit-Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 		8751E67822F49B83000610A0 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				87570FEC22F9E15500D740FD /* PlayerView.swift */,
 				8751E67922F49B83000610A0 /* RegularPlayer.swift */,
 				8751E67A22F49B83000610A0 /* CMTime+Utilities.swift */,
 				8751E67B22F49B83000610A0 /* Player.swift */,
@@ -494,6 +497,7 @@
 				8751E6AE22F4C70F000610A0 /* RegularPlayer.swift in Sources */,
 				8751E6B022F4C70F000610A0 /* Player.swift in Sources */,
 				8751E6B122F4C70F000610A0 /* AVPlayer+Utilities.swift in Sources */,
+				87570FED22F9E15500D740FD /* PlayerView.swift in Sources */,
 				8751E6AF22F4C70F000610A0 /* CMTime+Utilities.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

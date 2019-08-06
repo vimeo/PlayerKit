@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.summary          = 'A modular video player system.'
 
   s.description      = <<-DESC
-  PlayerKit is a modular video player system for iOS and tvOS.
+  PlayerKit is a modular video player system for iOS, tvOS, & macOS.
                        DESC
 
   s.homepage         = 'https://github.com/vimeo/PlayerKit'
@@ -14,6 +14,10 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '10.3'
   s.tvos.deployment_target = '10.0'
+  s.osx.deployment_target = '10.13'
+
+  s.ios.framework = 'UIKit'
+  s.osx.framework = 'AppKit'
 
   s.swift_version = "5.0"
 
