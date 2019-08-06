@@ -33,6 +33,7 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         return self.regularPlayerView.playerLayer
     }
 
+    private var seekTolerance: CMTime?
     
     // MARK: Public API
     
@@ -111,8 +112,12 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     
     open func seek(to time: TimeInterval) {
         let cmTime = CMTimeMakeWithSeconds(time, preferredTimescale: Int32(NSEC_PER_SEC))
-        
-        self.player.seek(to: cmTime)
+
+        if let tolerance = self.seekTolerance {
+            self.player.seek(to: cmTime, toleranceBefore: tolerance, toleranceAfter: tolerance)
+        } else {
+            self.player.seek(to: cmTime)
+        }
         
         self.time = time
     }
@@ -129,6 +134,9 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     
     public init(seekTolerance: TimeInterval? = nil) {
         self.regularPlayerView = RegularPlayerView(frame: .zero)
+        self.seekTolerance = seekTolerance.map {
+            CMTimeMakeWithSeconds($0, preferredTimescale: Int32(NSEC_PER_SEC))
+        }
 
         super.init()
         
