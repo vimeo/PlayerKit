@@ -26,6 +26,13 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     // MARK: Private Properties
     
     fileprivate var player = AVPlayer()
+
+    private var regularPlayerView: RegularPlayerView
+
+    private var playerLayer: AVPlayerLayer {
+        return self.regularPlayerView.playerLayer
+    }
+
     
     // MARK: Public API
     
@@ -64,14 +71,8 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         }
     }
     
-    public let view: UIView = RegularPlayerView(frame: .zero)
-    
-    private var regularPlayerView: RegularPlayerView {
-        return self.view as! RegularPlayerView
-    }
-    
-    private var playerLayer: AVPlayerLayer {
-        return self.regularPlayerView.playerLayer
+    open var view: UIView {
+        return regularPlayerView
     }
     
     // MARK: Player
@@ -108,7 +109,7 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         return self.player.errorForPlayerOrItem
     }
     
-    public func seek(to time: TimeInterval) {
+    open func seek(to time: TimeInterval) {
         let cmTime = CMTimeMakeWithSeconds(time, preferredTimescale: Int32(NSEC_PER_SEC))
         
         self.player.seek(to: cmTime)
@@ -116,23 +117,23 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         self.time = time
     }
     
-    public func play() {
+    open func play() {
         self.player.play()
     }
     
-    public func pause() {
+    open func pause() {
         self.player.pause()
     }
     
     // MARK: Lifecycle
     
-    public override init() {
+    public init(seekTolerance: TimeInterval? = nil) {
+        self.regularPlayerView = RegularPlayerView(frame: .zero)
+
         super.init()
         
         self.addPlayerObservers()
-        
         self.regularPlayerView.configureForPlayer(player: self.player)
-        
         self.setupAirplay()
     }
     
@@ -248,7 +249,7 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     }
     
     // MARK: Observation Helpers
-    
+
     private func playerItemStatusDidChange(status: AVPlayerItem.Status) {
         switch status {
         case .unknown:
