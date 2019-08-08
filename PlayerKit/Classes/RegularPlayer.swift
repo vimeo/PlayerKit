@@ -73,7 +73,7 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     }
     
     open var view: UIView {
-        return regularPlayerView
+        return self.regularPlayerView
     }
     
     // MARK: Player
