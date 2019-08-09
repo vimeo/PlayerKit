@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-gem 'fastlane', '2.114.0'
+gem 'fastlane', '2.128.1'
 gem 'cocoapods', '1.7.4'
 gem 'danger', '4.0.4'
 gem 'xcode-install', '2.1.0'
