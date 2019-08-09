@@ -23,7 +23,7 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         public static let TimeUpdateInterval: TimeInterval = 0.1
     }
     
-    // MARK: Private Properties
+    // MARK: - Private Properties
     
     fileprivate var player = AVPlayer()
 
@@ -34,8 +34,11 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     }
 
     private var seekTolerance: CMTime?
+
+    private var seekTarget: CMTime = CMTime.invalid
+    private var isSeekInProgress: Bool = false
     
-    // MARK: Public API
+    // MARK: - Public API
     
     /// Sets an AVAsset on the player.
     ///
@@ -56,7 +59,7 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         self.player.replaceCurrentItem(with: playerItem)
     }
     
-    // MARK: ProvidesView
+    // MARK: - ProvidesView
     
     private class RegularPlayerView: UIView {
         var playerLayer: AVPlayerLayer {
@@ -76,7 +79,7 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         return self.regularPlayerView
     }
     
-    // MARK: Player
+    // MARK: - Player
     
     weak public var delegate: PlayerDelegate?
     
@@ -112,16 +115,9 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     
     open func seek(to time: TimeInterval) {
         let cmTime = CMTimeMakeWithSeconds(time, preferredTimescale: Int32(NSEC_PER_SEC))
-
-        if let tolerance = self.seekTolerance {
-            self.player.seek(to: cmTime, toleranceBefore: tolerance, toleranceAfter: tolerance)
-        } else {
-            self.player.seek(to: cmTime)
-        }
-        
-        self.time = time
+        self.smoothSeek(to: cmTime)
     }
-    
+
     open func play() {
         self.player.play()
     }
@@ -130,9 +126,13 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         self.player.pause()
     }
     
-    // MARK: Lifecycle
+    // MARK: - Lifecycle
+
+    override public convenience init() {
+        self.init(seekTolerance: nil)
+    }
     
-    public init(seekTolerance: TimeInterval? = nil) {
+    public init(seekTolerance: TimeInterval?) {
         self.regularPlayerView = RegularPlayerView(frame: .zero)
         self.seekTolerance = seekTolerance.map {
             CMTimeMakeWithSeconds($0, preferredTimescale: Int32(NSEC_PER_SEC))
@@ -153,7 +153,7 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         self.removePlayerObservers()
     }
     
-    // MARK: Setup
+    // MARK: - Setup
 
     @available(iOS 10.0, *)
     public var automaticallyWaitsToMinimizeStalling: Bool {
@@ -168,8 +168,51 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     private func setupAirplay() {
         self.player.usesExternalPlaybackWhileExternalScreenIsActive = true
     }
+
+    // MARK: - Smooth Seeking
+
+    // Note: Smooth seeking follows the guide from Apple Technical Q&A: https://developer.apple.com/library/archive/qa/qa1820/_index.html
+    // Update the seek target and begin seeking if there is no seek currently in progress.
+    private func smoothSeek(to cmTime: CMTime) {
+        self.seekTarget = cmTime
+
+        guard self.isSeekInProgress == false else { return }
+        self.seekToTarget()
+    }
+
+    // Unconditionally seek to the current seek target.
+    private func seekToTarget() {
+        assert(!self.isSeekInProgress)
+        self.isSeekInProgress = true
+
+        guard self.player.status != .unknown else { return }
+
+        assert(CMTIME_IS_VALID(self.seekTarget))
+        let inProgressSeekTarget = self.seekTarget
+
+        let completion: (Bool) -> Void = { _ in
+            self.time = CMTimeGetSeconds(inProgressSeekTarget)
+            if CMTimeCompare(inProgressSeekTarget, self.seekTarget) == 0 {
+                self.isSeekInProgress = false
+            } else {
+                self.seekToTarget()
+            }
+        }
+
+        if let tolerance = self.seekTolerance {
+            self.player.seek(
+                to: inProgressSeekTarget,
+                toleranceBefore: tolerance,
+                toleranceAfter: tolerance,
+                completionHandler: completion
+            )
+        } else {
+            self.player.seek(to: inProgressSeekTarget, completionHandler: completion)
+        }
+    }
+
     
-    // MARK: Observers
+    // MARK: - Observers
     
     private struct KeyPath {
         struct Player {
@@ -267,6 +310,11 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         case .readyToPlay:
             
             self.state = .ready
+
+            // If we tried to seek before the video was ready to play, resume seeking now.
+            if self.isSeekInProgress {
+                self.seekToTarget()
+            }
             
         case .failed:
             
@@ -292,7 +340,7 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         self.bufferedTime = bufferedTime
     }
     
-    // MARK: Capability Protocol Helpers
+    // MARK: - Capability Protocol Helpers
     
     #if os(iOS)
     @available(iOS 9.0, *)
