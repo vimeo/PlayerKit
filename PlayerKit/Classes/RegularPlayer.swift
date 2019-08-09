@@ -190,7 +190,9 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         assert(CMTIME_IS_VALID(self.seekTarget))
         let inProgressSeekTarget = self.seekTarget
 
-        let completion: (Bool) -> Void = { _ in
+        let completion: (Bool) -> Void = { [weak self] _ in
+            guard let self = self else { return }
+
             self.time = CMTimeGetSeconds(inProgressSeekTarget)
             if CMTimeCompare(inProgressSeekTarget, self.seekTarget) == 0 {
                 self.isSeekInProgress = false
