@@ -259,4 +259,4 @@ DEPENDENCIES
   xcpretty-json-formatter (= 0.1.0)
 
 BUNDLED WITH
-   2.0.2
+   1.17.2
