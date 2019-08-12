@@ -182,7 +182,6 @@ extension AVMediaSelectionOption: TextTrackMetadata {
 
     // Unconditionally seek to the current seek target.
     private func seekToTarget() {
-        assert(!self.isSeekInProgress)
         self.isSeekInProgress = true
 
         guard self.player.status != .unknown else { return }
