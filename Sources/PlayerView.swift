@@ -9,14 +9,10 @@
 /// which platform the binary is being compiled for. If iOS or tvOS, `UIKit` will be imported and `UIView` will be used.
 /// otherwise, if macOS is used, `AppKit` will be imported and `NSView` will be used.
 
-#if os(iOS) || os(tvOS)
+#if canImport(UIKit)
     import UIKit
-#else
-    import AppKit
-#endif
-
-#if os(iOS) || os(tvOS)
     public typealias PlayerView = UIView
-#else
+#elseif canImport(AppKit)
+    import AppKit
     public typealias PlayerView = NSView
 #endif

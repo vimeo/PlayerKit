@@ -54,11 +54,11 @@ extension AVMediaSelectionOption: TextTrackMetadata {
             return self.layer as! AVPlayerLayer
         }
 
-        #if os(iOS) || os(tvOS)
+        #if canImport(UIKit)
         override class var layerClass: AnyClass {
             return AVPlayerLayer.self
         }
-        #else
+        #elseif canImport(AppKit)
         override init(frame frameRect: NSRect) {
             super.init(frame: frameRect)
             self.layer = AVPlayerLayer()
@@ -169,7 +169,7 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     }
     
     private func setupAirplay() {
-        #if os(iOS) || os(tvOS)
+        #if canImport(UIKit)
             self.player.usesExternalPlaybackWhileExternalScreenIsActive = true
         #endif
     }
