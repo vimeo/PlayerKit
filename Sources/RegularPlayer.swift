@@ -49,7 +49,7 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     
     // MARK: ProvidesView
     
-    private class RegularPlayerView: UIView {
+    private class RegularPlayerView: PlayerView {
         var playerLayer: AVPlayerLayer {
             return self.layer as! AVPlayerLayer
         }
