@@ -6,7 +6,6 @@
 //
 //
 
-import UIKit
 import AVKit
 
 /// A player error
@@ -65,6 +64,8 @@ public enum PlayerError: Int {
     
     var playing: Bool { get }
     
+    var ended: Bool { get }
+    
     var error: NSError? { get }
     
     /// Seeks to the specified time
@@ -83,7 +84,7 @@ public enum PlayerError: Int {
 
 /// A player that adopts the ProvidesView protocol is capable of providing a view to be added to a view hierarchy.
 @objc public protocol ProvidesView {
-    var view: UIView { get }
+    var view: PlayerView { get }
 }
 
 // MARK: Capability Protocols

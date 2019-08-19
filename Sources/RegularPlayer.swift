@@ -6,7 +6,6 @@
 //
 //
 
-import UIKit
 import Foundation
 import AVFoundation
 import AVKit
@@ -50,21 +49,32 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     
     // MARK: ProvidesView
     
-    private class RegularPlayerView: UIView {
+    private class RegularPlayerView: PlayerView {
         var playerLayer: AVPlayerLayer {
             return self.layer as! AVPlayerLayer
         }
-        
+
+        #if canImport(UIKit)
         override class var layerClass: AnyClass {
             return AVPlayerLayer.self
         }
+        #elseif canImport(AppKit)
+        override init(frame frameRect: NSRect) {
+            super.init(frame: frameRect)
+            self.layer = AVPlayerLayer()
+        }
+
+        required init?(coder decoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        #endif
         
         func configureForPlayer(player: AVPlayer) {
             (self.layer as! AVPlayerLayer).player = player
         }
     }
     
-    public let view: UIView = RegularPlayerView(frame: .zero)
+    public let view: PlayerView = RegularPlayerView(frame: .zero)
     
     private var regularPlayerView: RegularPlayerView {
         return self.view as! RegularPlayerView
@@ -104,6 +114,10 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         return self.player.rate > 0
     }
     
+    public var ended: Bool {
+        return self.time >= self.duration
+    }
+    
     public var error: NSError? {
         return self.player.errorForPlayerOrItem
     }
@@ -130,9 +144,7 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         super.init()
         
         self.addPlayerObservers()
-        
         self.regularPlayerView.configureForPlayer(player: self.player)
-        
         self.setupAirplay()
     }
     
@@ -146,7 +158,7 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     
     // MARK: Setup
 
-    @available(iOS 10.0, *)
+    @available(iOS 10.0, tvOS 10.0, macOS 10.12, *)
     public var automaticallyWaitsToMinimizeStalling: Bool {
         get {
             return self.player.automaticallyWaitsToMinimizeStalling
@@ -157,7 +169,9 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     }
     
     private func setupAirplay() {
-        self.player.usesExternalPlaybackWhileExternalScreenIsActive = true
+        #if os(iOS) || os(tvOS)
+            self.player.usesExternalPlaybackWhileExternalScreenIsActive = true
+        #endif
     }
     
     // MARK: Observers
