@@ -169,7 +169,7 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     }
     
     private func setupAirplay() {
-        #if canImport(UIKit)
+        #if os(iOS) || os(tvOS)
             self.player.usesExternalPlaybackWhileExternalScreenIsActive = true
         #endif
     }
