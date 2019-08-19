@@ -158,7 +158,7 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     
     // MARK: Setup
 
-    @available(iOS 10.0, *)
+    @available(iOS 10.0, tvOS 10.0, macOS 10.12, *)
     public var automaticallyWaitsToMinimizeStalling: Bool {
         get {
             return self.player.automaticallyWaitsToMinimizeStalling
