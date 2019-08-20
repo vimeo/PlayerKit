@@ -28,8 +28,8 @@ whitelist_rules:
 
 # Paths to include during linting.
 included:
-  - ../PlayerKit/Classes
-  - ../Example
+  - Sources
+  - Tests
 
 # Paths to exclude during linting.
 excluded:

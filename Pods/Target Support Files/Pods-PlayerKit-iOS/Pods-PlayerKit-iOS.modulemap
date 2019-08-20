@@ -1,0 +1,6 @@
+framework module Pods_PlayerKit_iOS {
+  umbrella header "Pods-PlayerKit-iOS-umbrella.h"
+
+  export *
+  module * { export * }
+}
