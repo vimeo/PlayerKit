@@ -80,6 +80,12 @@ public enum PlayerError: Int {
     func pause()
 }
 
+public extension Player {
+    var ended: Bool {
+        return self.time >= self.duration
+    }
+}
+
 // MARK: Identity Protocols
 
 /// A player that adopts the ProvidesView protocol is capable of providing a view to be added to a view hierarchy.

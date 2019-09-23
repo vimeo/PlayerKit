@@ -119,10 +119,6 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         return self.player.rate > 0
     }
     
-    public var ended: Bool {
-        return self.time >= self.duration
-    }
-    
     public var error: NSError? {
         return self.player.errorForPlayerOrItem
     }
