@@ -22,32 +22,43 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         public static let TimeUpdateInterval: TimeInterval = 0.1
     }
     
-    // MARK: Private Properties
+    // MARK: - Private Properties
     
     fileprivate var player = AVPlayer()
+
+    private var regularPlayerView: RegularPlayerView
+
+    private var playerLayer: AVPlayerLayer {
+        return self.regularPlayerView.playerLayer
+    }
+
+    private var seekTolerance: CMTime?
+
+    private var seekTarget: CMTime = CMTime.invalid
+    private var isSeekInProgress: Bool = false
     
-    // MARK: Public API
+    // MARK: - Public API
     
     /// Sets an AVAsset on the player.
     ///
     /// - Parameter asset: The AVAsset
     @objc open func set(_ asset: AVAsset) {
+        let playerItem = AVPlayerItem(asset: asset)
+        self.set(playerItem: playerItem)
+    }
+
+    @objc open func set(playerItem: AVPlayerItem) {
         // Prepare the old item for removal
-        
         if let currentItem = self.player.currentItem {
             self.removePlayerItemObservers(fromPlayerItem: currentItem)
         }
-        
+
         // Replace it with the new item
-        
-        let playerItem = AVPlayerItem(asset: asset)
-        
         self.addPlayerItemObservers(toPlayerItem: playerItem)
-        
         self.player.replaceCurrentItem(with: playerItem)
     }
     
-    // MARK: ProvidesView
+    // MARK: - ProvidesView
     
     private class RegularPlayerView: PlayerView {
         var playerLayer: AVPlayerLayer {
@@ -74,17 +85,11 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         }
     }
     
-    public let view: PlayerView = RegularPlayerView(frame: .zero)
-    
-    private var regularPlayerView: RegularPlayerView {
-        return self.view as! RegularPlayerView
+    open var view: UIView {
+        return self.regularPlayerView
     }
     
-    private var playerLayer: AVPlayerLayer {
-        return self.regularPlayerView.playerLayer
-    }
-    
-    // MARK: Player
+    // MARK: - Player
     
     weak public var delegate: PlayerDelegate?
     
@@ -122,25 +127,31 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         return self.player.errorForPlayerOrItem
     }
     
-    public func seek(to time: TimeInterval) {
+    open func seek(to time: TimeInterval) {
         let cmTime = CMTimeMakeWithSeconds(time, preferredTimescale: Int32(NSEC_PER_SEC))
-        
-        self.player.seek(to: cmTime)
-        
-        self.time = time
+        self.smoothSeek(to: cmTime)
     }
-    
-    public func play() {
+
+    open func play() {
         self.player.play()
     }
     
-    public func pause() {
+    open func pause() {
         self.player.pause()
     }
     
-    // MARK: Lifecycle
+    // MARK: - Lifecycle
+
+    override public convenience init() {
+        self.init(seekTolerance: nil)
+    }
     
-    public override init() {
+    public init(seekTolerance: TimeInterval?) {
+        self.regularPlayerView = RegularPlayerView(frame: .zero)
+        self.seekTolerance = seekTolerance.map {
+            CMTimeMakeWithSeconds($0, preferredTimescale: Int32(NSEC_PER_SEC))
+        }
+
         super.init()
         
         self.addPlayerObservers()
@@ -156,7 +167,7 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         self.removePlayerObservers()
     }
     
-    // MARK: Setup
+    // MARK: - Setup
 
     @available(iOS 10.0, tvOS 10.0, macOS 10.12, *)
     public var automaticallyWaitsToMinimizeStalling: Bool {
@@ -173,8 +184,52 @@ extension AVMediaSelectionOption: TextTrackMetadata {
             self.player.usesExternalPlaybackWhileExternalScreenIsActive = true
         #endif
     }
+
+    // MARK: - Smooth Seeking
+
+    // Note: Smooth seeking follows the guide from Apple Technical Q&A: https://developer.apple.com/library/archive/qa/qa1820/_index.html
+    // Update the seek target and begin seeking if there is no seek currently in progress.
+    private func smoothSeek(to cmTime: CMTime) {
+        self.seekTarget = cmTime
+
+        guard self.isSeekInProgress == false else { return }
+        self.seekToTarget()
+    }
+
+    // Unconditionally seek to the current seek target.
+    private func seekToTarget() {
+        self.isSeekInProgress = true
+
+        guard self.player.status != .unknown else { return }
+
+        assert(CMTIME_IS_VALID(self.seekTarget))
+        let inProgressSeekTarget = self.seekTarget
+
+        let completion: (Bool) -> Void = { [weak self] _ in
+            guard let self = self else { return }
+
+            self.time = CMTimeGetSeconds(inProgressSeekTarget)
+            if CMTimeCompare(inProgressSeekTarget, self.seekTarget) == 0 {
+                self.isSeekInProgress = false
+            } else {
+                self.seekToTarget()
+            }
+        }
+
+        if let tolerance = self.seekTolerance {
+            self.player.seek(
+                to: inProgressSeekTarget,
+                toleranceBefore: tolerance,
+                toleranceAfter: tolerance,
+                completionHandler: completion
+            )
+        } else {
+            self.player.seek(to: inProgressSeekTarget, completionHandler: completion)
+        }
+    }
+
     
-    // MARK: Observers
+    // MARK: - Observers
     
     private struct KeyPath {
         struct Player {
@@ -262,7 +317,7 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     }
     
     // MARK: Observation Helpers
-    
+
     private func playerItemStatusDidChange(status: AVPlayerItem.Status) {
         switch status {
         case .unknown:
@@ -272,6 +327,11 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         case .readyToPlay:
             
             self.state = .ready
+
+            // If we tried to seek before the video was ready to play, resume seeking now.
+            if self.isSeekInProgress {
+                self.seekToTarget()
+            }
             
         case .failed:
             
@@ -301,7 +361,7 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         self.bufferedTime = bufferedTime
     }
     
-    // MARK: Capability Protocol Helpers
+    // MARK: - Capability Protocol Helpers
     
     #if os(iOS)
     @available(iOS 9.0, *)
