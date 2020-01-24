@@ -41,7 +41,9 @@ playground.xcworkspace
 .build/
 
 # CocoaPods
-Pods
+# 
+# We will be opting to check in the Pods directory for this repo as a requirement for Carthage support.
+# Pods
 
 # Carthage
 #
