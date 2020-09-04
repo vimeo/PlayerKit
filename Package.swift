@@ -16,7 +16,7 @@ let package = Package(
         .target(
             name: "PlayerKit",
             dependencies: [],
-            path: "Source"
+            path: "Sources"
         ),
         .testTarget(
             name: "PlayerKit-iOSTests",
