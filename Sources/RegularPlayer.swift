@@ -93,6 +93,17 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     
     weak public var delegate: PlayerDelegate?
     
+    public var preventsDisplaySleepDuringVideoPlayback {
+        get {
+            return self.player.preventsDisplaySleepDuringVideoPlayback
+        }
+        set {
+            self.player.preventsDisplaySleepDuringVideoPlayback = newValue
+        }
+        
+    }
+    
+    
     public private(set) var state: PlayerState = .ready {
         didSet {
             self.delegate?.playerDidUpdateState(player: self, previousState: oldValue)
