@@ -93,7 +93,7 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     
     weak public var delegate: PlayerDelegate?
     
-    public var preventsDisplaySleepDuringVideoPlayback {
+    public var preventsDisplaySleepDuringVideoPlayback: Bool {
         get {
             return self.player.preventsDisplaySleepDuringVideoPlayback
         }
