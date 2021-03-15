@@ -76,6 +76,9 @@ public enum PlayerError: Int {
     /// Play the video
     func play()
     
+    /// Set Rate of video
+    func setRate(_ rate: Float)
+    
     /// Pause the video
     func pause()
 }
