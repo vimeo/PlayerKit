@@ -136,6 +136,10 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         self.player.play()
     }
     
+    open func setRate(_ rate: Float) {
+        self.player.rate = rate
+    }
+    
     open func pause() {
         self.player.pause()
     }
