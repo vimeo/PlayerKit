@@ -428,6 +428,9 @@ extension RegularPlayer: FillModeCapable {
             case .fill:
                 
                 gravity = .resizeAspectFill
+            case .scaleToFit:
+                
+                gravity = .resize
             }
 
             (self.view.layer as! AVPlayerLayer).videoGravity = gravity

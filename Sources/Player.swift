@@ -110,6 +110,7 @@ public enum PlayerError: Int {
 @objc public enum FillMode: Int {
     case fit
     case fill
+    case scaleToFit
 }
 
 /// The metadata that should be attached to any type of text track.
