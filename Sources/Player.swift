@@ -43,16 +43,19 @@ public enum PlayerError: Int {
 }
 
 /// An object that adopts the PlayerDelegate protocol can receive updates from the player.
-@objc public protocol PlayerDelegate: class {
+@objc public protocol PlayerDelegate: AnyObject {
     func playerDidUpdateState(player: Player, previousState: PlayerState)
     func playerDidUpdatePlaying(player: Player)
     func playerDidUpdateTime(player: Player)
     func playerDidUpdateBufferedTime(player: Player)
+    func playerDidUpdateSize(player: Player)
 }
 
 /// An object that adopts the Player protocol is responsible for implementing the API and calling PlayerDelegate methods where appropriate.
-@objc public protocol Player: class {
+@objc public protocol Player: AnyObject {
     weak var delegate: PlayerDelegate? { get set }
+    
+    var videoSize: CGSize { get }
     
     var state: PlayerState { get }
     
