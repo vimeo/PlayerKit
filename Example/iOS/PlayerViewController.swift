@@ -12,7 +12,7 @@ import AVFoundation
 
 class PlayerViewController: UIViewController, PlayerDelegate {
     private struct Constants {
-        static let VideoURL = URL(string: "https://github.com/vimeo/PlayerKit/blob/master/Example/PlayerKit/video.mp4?raw=true")!
+        static let VideoURL = URL(string: "https://github.com/vimeo/PlayerKit/blob/develop/Example/iOS/video.mp4?raw=true")!
     }
     
     @IBOutlet weak var playButton: UIButton!
@@ -98,5 +98,9 @@ class PlayerViewController: UIViewController, PlayerDelegate {
         let ratio = Int((player.bufferedTime / player.duration) * 100)
         
         self.label.text = "Buffer: \(ratio)%"
+    }
+    
+    func playerDidUpdateSize(player: Player) {
+        print("video rect = \(player.videoRect)")
     }
 }
