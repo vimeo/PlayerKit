@@ -16,6 +16,16 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     }
 }
 
+extension AVAsset {
+    
+    var videoSize: CGSize? {
+        tracks(withMediaType: .video).first.flatMap {
+            tracks.count > 0 ? $0.naturalSize.applying($0.preferredTransform) : nil
+        }
+    }
+}
+
+
 /// A RegularPlayer is used to play regular videos.
 @objc open class RegularPlayer: NSObject, Player, ProvidesView {
     public struct Constants {
@@ -92,6 +102,12 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     // MARK: - Player
     
     weak public var delegate: PlayerDelegate?
+    
+    public private(set) var videoSize: CGSize = CGSize() {
+        didSet {
+            self.delegate?.playerDidUpdateSize(player: self)
+        }
+    }
     
     public private(set) var state: PlayerState = .ready {
         didSet {
@@ -259,7 +275,6 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     
     private func addPlayerObservers() {
         self.player.addObserver(self, forKeyPath: KeyPath.Player.Rate, options: [.initial, .new], context: nil)
-        
         let interval = CMTimeMakeWithSeconds(Constants.TimeUpdateInterval, preferredTimescale: Int32(NSEC_PER_SEC))
         
         self.playerTimeObserver = self.player.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { [weak self] (cmTime) in
@@ -272,7 +287,6 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     
     private func removePlayerObservers() {
         self.player.removeObserver(self, forKeyPath: KeyPath.Player.Rate, context: nil)
-        
         if let playerTimeObserver = self.playerTimeObserver {
             self.player.removeTimeObserver(playerTimeObserver)
             
@@ -332,6 +346,8 @@ extension AVMediaSelectionOption: TextTrackMetadata {
             if self.isSeekInProgress {
                 self.seekToTarget()
             }
+            
+            self.videoSize = self.player.currentItem?.asset.videoSize ?? CGSize()
             
         case .failed:
             
