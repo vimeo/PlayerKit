@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		247AA5DF3742EDF63FBB81C1 /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D882864B2E994D13F783B02 /* Pods_Example.framework */; };
+		17D2169D26563167002DE69D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8751E66D22F49B47000610A0 /* LaunchScreen.xib */; };
+		17D2169E2656375C002DE69D /* PlayerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8751E68C22F4B7CE000610A0 /* PlayerKit.framework */; };
+		17D2169F2656375C002DE69D /* PlayerKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8751E68C22F4B7CE000610A0 /* PlayerKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		87127EEC22F4CBD700ABDB39 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87127EEB22F4CBD700ABDB39 /* Default-568h@2x.png */; };
 		8751E67222F49B48000610A0 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8751E66A22F49B47000610A0 /* PlayerViewController.swift */; };
-		8751E67322F49B48000610A0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8751E66C22F49B47000610A0 /* LaunchScreen.xib */; };
 		8751E67422F49B48000610A0 /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8751E66E22F49B47000610A0 /* video.mp4 */; };
 		8751E67522F49B48000610A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8751E66F22F49B48000610A0 /* AppDelegate.swift */; };
 		8751E67622F49B48000610A0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8751E67022F49B48000610A0 /* Images.xcassets */; };
@@ -23,10 +24,16 @@
 		87570FEB22F8D4FB00D740FD /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		87570FED22F9E15500D740FD /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87570FEC22F9E15500D740FD /* PlayerView.swift */; };
 		F0FFB37F820BFA1221283BF8 /* Pods_PlayerKit_iOS_PlayerKit_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3423AC93F7CB435E99250B3C /* Pods_PlayerKit_iOS_PlayerKit_iOSTests.framework */; };
-		F5E7784A924FFE1AF46D019B /* Pods_PlayerKit_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0E6AB4D2B9EC44EF46A6D7 /* Pods_PlayerKit_iOS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		17D216A02656375C002DE69D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8751E68B22F4B7CE000610A0;
+			remoteInfo = "PlayerKit-iOS";
+		};
 		8751E69622F4B7CE000610A0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
@@ -57,6 +64,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				17D2169F2656375C002DE69D /* PlayerKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -78,7 +86,7 @@
 		680FAFB882E155317DBF1794 /* Pods-PlayerKit-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayerKit-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-PlayerKit-iOS/Pods-PlayerKit-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		87127EEB22F4CBD700ABDB39 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		8751E66A22F49B47000610A0 /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
-		8751E66D22F49B47000610A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = LaunchScreen.xib; sourceTree = "<group>"; };
+		8751E66D22F49B47000610A0 /* LaunchScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		8751E66E22F49B47000610A0 /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video.mp4; sourceTree = "<group>"; };
 		8751E66F22F49B48000610A0 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8751E67022F49B48000610A0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -108,7 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				247AA5DF3742EDF63FBB81C1 /* Pods_Example.framework in Frameworks */,
+				17D2169E2656375C002DE69D /* PlayerKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,7 +124,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F5E7784A924FFE1AF46D019B /* Pods_PlayerKit_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,7 +225,7 @@
 				87127EEB22F4CBD700ABDB39 /* Default-568h@2x.png */,
 				8751E66F22F49B48000610A0 /* AppDelegate.swift */,
 				8751E67022F49B48000610A0 /* Images.xcassets */,
-				8751E66C22F49B47000610A0 /* LaunchScreen.xib */,
+				8751E66D22F49B47000610A0 /* LaunchScreen.xib */,
 				8751E66A22F49B47000610A0 /* PlayerViewController.swift */,
 				8751E67122F49B48000610A0 /* PlayerViewController.xib */,
 				8751E66E22F49B47000610A0 /* video.mp4 */,
@@ -274,6 +281,7 @@
 			);
 			dependencies = (
 				8751E6A022F4B7CE000610A0 /* PBXTargetDependency */,
+				17D216A12656375C002DE69D /* PBXTargetDependency */,
 			);
 			name = Example;
 			productName = PlayerKit;
@@ -333,16 +341,12 @@
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
 						LastSwiftMigration = 1010;
-						ProvisioningStyle = Manual;
 					};
 					8751E68B22F4B7CE000610A0 = {
 						CreatedOnToolsVersion = 10.1;
-						ProvisioningStyle = Automatic;
 					};
 					8751E69322F4B7CE000610A0 = {
 						CreatedOnToolsVersion = 10.1;
-						DevelopmentTeam = 35R365FS4Q;
-						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -354,7 +358,6 @@
 				English,
 				en,
 				Base,
-				global,
 			);
 			mainGroup = 607FACC71AFB9204008FA782;
 			productRefGroup = 607FACD11AFB9204008FA782 /* Products */;
@@ -375,7 +378,7 @@
 			files = (
 				8751E67622F49B48000610A0 /* Images.xcassets in Resources */,
 				8751E67722F49B48000610A0 /* PlayerViewController.xib in Resources */,
-				8751E67322F49B48000610A0 /* LaunchScreen.xib in Resources */,
+				17D2169D26563167002DE69D /* LaunchScreen.xib in Resources */,
 				8751E67422F49B48000610A0 /* video.mp4 in Resources */,
 				87127EEC22F4CBD700ABDB39 /* Default-568h@2x.png in Resources */,
 			);
@@ -513,6 +516,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		17D216A12656375C002DE69D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8751E68B22F4B7CE000610A0 /* PlayerKit-iOS */;
+			targetProxy = 17D216A02656375C002DE69D /* PBXContainerItemProxy */;
+		};
 		8751E69722F4B7CE000610A0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8751E68B22F4B7CE000610A0 /* PlayerKit-iOS */;
@@ -529,17 +537,6 @@
 			targetProxy = 8751E69F22F4B7CE000610A0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		8751E66C22F49B47000610A0 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8751E66D22F49B47000610A0 /* Base */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		607FACED1AFB9204008FA782 /* Debug */ = {
@@ -656,16 +653,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = TB576F3KJ6;
 				INFOPLIST_FILE = "$(SRCROOT)/Example/iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.Vimeo-iOS.Example";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hansoolabs.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -681,16 +678,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = TB576F3KJ6;
 				INFOPLIST_FILE = "$(SRCROOT)/Example/iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.Vimeo-iOS.Example";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hansoolabs.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -710,7 +707,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
@@ -730,6 +727,8 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Vimeo.PlayerKit-iOS";
 				PRODUCT_NAME = PlayerKit;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 4.2;
@@ -750,7 +749,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -768,6 +767,8 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Vimeo.PlayerKit-iOS";
 				PRODUCT_NAME = PlayerKit;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -788,9 +789,10 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 35R365FS4Q;
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "$(SRCROOT)/Configs/PlayerKitTests.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
@@ -803,6 +805,8 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vimeo.mac.PlayerKit-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -821,8 +825,9 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 35R365FS4Q;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "$(SRCROOT)/Configs/PlayerKitTests.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
@@ -834,6 +839,8 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vimeo.mac.PlayerKit-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
