@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'PlayerKit'
-  s.version          = '3.1.1'
+  s.version          = '3.1.0'
   s.summary          = 'A modular video player system.'
 
   s.description      = <<-DESC
