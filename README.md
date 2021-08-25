@@ -1,3 +1,5 @@
+⚠️⚠️⚠️ This library has been deprecated and will be removed in the future. ⚠️⚠️⚠️
+
 # PlayerKit
 
 [![CI Status](http://img.shields.io/travis/ghking/PlayerKit.svg?style=flat)](https://travis-ci.org/vimeo/PlayerKit)
