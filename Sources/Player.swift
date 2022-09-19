@@ -62,6 +62,8 @@ public enum PlayerError: Int {
     
     var bufferedTime: TimeInterval { get }
     
+    var isSeekInProgress: Bool { get }
+    
     var playing: Bool { get }
     
     var ended: Bool { get }
