@@ -35,7 +35,7 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     private var seekTolerance: CMTime?
 
     private var seekTarget: CMTime = CMTime.invalid
-    private var isSeekInProgress: Bool = false
+    public var isSeekInProgress: Bool = false
     
     // MARK: - Public API
     
