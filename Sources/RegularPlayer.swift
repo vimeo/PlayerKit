@@ -18,6 +18,7 @@ extension AVMediaSelectionOption: TextTrackMetadata {
 
 /// A RegularPlayer is used to play regular videos.
 @objc open class RegularPlayer: NSObject, Player, ProvidesView {
+    
     public struct Constants {
         public static let TimeUpdateInterval: TimeInterval = 0.1
     }
@@ -112,6 +113,12 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     public private(set) var bufferedTime: TimeInterval = 0 {
         didSet {
             self.delegate?.playerDidUpdateBufferedTime(player: self)
+        }
+    }
+    
+    public var isMuted: Bool = true {
+        didSet {
+            player.isMuted = isMuted
         }
     }
     
