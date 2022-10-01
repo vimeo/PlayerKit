@@ -62,6 +62,10 @@ public enum PlayerError: Int {
     
     var bufferedTime: TimeInterval { get }
     
+    var isMuted: Bool { get set }
+    
+    var isSeekInProgress: Bool { get }
+    
     var playing: Bool { get }
     
     var ended: Bool { get }
@@ -75,6 +79,9 @@ public enum PlayerError: Int {
     
     /// Play the video
     func play()
+    
+    /// Set Rate of video
+    func setRate(_ rate: Float)
     
     /// Pause the video
     func pause()
@@ -107,6 +114,7 @@ public enum PlayerError: Int {
 @objc public enum FillMode: Int {
     case fit
     case fill
+    case scaleToFit
 }
 
 /// The metadata that should be attached to any type of text track.

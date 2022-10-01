@@ -18,6 +18,7 @@ extension AVMediaSelectionOption: TextTrackMetadata {
 
 /// A RegularPlayer is used to play regular videos.
 @objc open class RegularPlayer: NSObject, Player, ProvidesView {
+    
     public struct Constants {
         public static let TimeUpdateInterval: TimeInterval = 0.1
     }
@@ -35,7 +36,7 @@ extension AVMediaSelectionOption: TextTrackMetadata {
     private var seekTolerance: CMTime?
 
     private var seekTarget: CMTime = CMTime.invalid
-    private var isSeekInProgress: Bool = false
+    public var isSeekInProgress: Bool = false
     
     // MARK: - Public API
     
@@ -115,6 +116,12 @@ extension AVMediaSelectionOption: TextTrackMetadata {
         }
     }
     
+    public var isMuted: Bool = true {
+        didSet {
+            player.isMuted = isMuted
+        }
+    }
+    
     public var playing: Bool {
         return self.player.rate > 0
     }
@@ -134,6 +141,10 @@ extension AVMediaSelectionOption: TextTrackMetadata {
 
     open func play() {
         self.player.play()
+    }
+    
+    open func setRate(_ rate: Float) {
+        self.player.rate = rate
     }
     
     open func pause() {
@@ -424,6 +435,9 @@ extension RegularPlayer: FillModeCapable {
             case .fill:
                 
                 gravity = .resizeAspectFill
+            case .scaleToFit:
+                
+                gravity = .resize
             }
 
             (self.view.layer as! AVPlayerLayer).videoGravity = gravity
